@@ -16,11 +16,11 @@
 
 <section class="container" id="products">
   <div class="row">
-    <?php while($row = $result->fetch()):?>
+    <?php foreach($products as $product):?>
       <div class="col">
         <?php include 'card.php'?>
       </div>
-    <?php endwhile;?>
+    <?php endforeach;?>
   </div>
 
 
