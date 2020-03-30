@@ -3,7 +3,7 @@
   <a class="navbar-brand" href="#">My shop</a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
-      Warenkorb (<?= $cartItems ?>)
+      <a href="index.php/cart">Warenkorb (<?= $countCartItems ?>)</a>
     </li>
   </ul>
 </div>
