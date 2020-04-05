@@ -1,6 +1,9 @@
 <?php
 function addProductToCart(int $userId,int $productId){
-  $sql ="INSERT INTO cart SET user_id = :userId,product_id = :productId";
+  $sql ="INSERT INTO cart
+  SET quantity=1,user_id = :userId,product_id = :productId
+  ON DUPLICATE KEY UPDATE quantity = quantity +1
+  ";
   $statement = getDB()->prepare($sql);
 
   $statement->execute([
@@ -21,7 +24,7 @@ function countProductsInCart(int $userId){
 }
 
 function getCartItemsForUserId(int $userId):array{
-  $sql ="SELECT product_id,titel,description,price
+  $sql ="SELECT product_id,title,description,price
           FROM cart
           JOIN products ON(cart.product_id = products.id)
           WHERE user_id = ".$userId;
@@ -34,4 +37,16 @@ function getCartItemsForUserId(int $userId):array{
     $found[]=$row;
   }
   return $found;
+}
+
+function getCartSumForUserId(int $userId): int{
+  $sql ="SELECT SUM(price * quantity)
+          FROM cart
+          JOIN products ON(cart.product_id = products.id)
+          WHERE user_id = ".$userId;
+  $result = getDb()->query($sql);
+  if($result === false){
+    return 0;
+  }
+  return (int)$result->fetchColumn();
 }

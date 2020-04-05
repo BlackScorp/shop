@@ -1,7 +1,7 @@
 <?php
 
 function getAllProducts(){
-  $sql ="SELECT id,titel,description,price
+  $sql ="SELECT id,title,description,price
   FROM products";
 
   $result = getDB()->query($sql);
