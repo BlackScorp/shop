@@ -35,7 +35,7 @@
     </div>
   </div>
   <div class="row">
-    <a href="#"class="btn btn-primary col-12">Zur Kasse gehen</a>
+    <a href="index.php/checkout"class="btn btn-primary col-12">Zur Kasse gehen</a>
   </div>
 </section>
 <script src="assets/js/bootstrap.bundle.js"></script>
