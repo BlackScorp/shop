@@ -14,18 +14,3 @@
 <h1>Willkommen auf meinem Online Shop</h1>
 </div>
 </header>
-
-<section class="container" id="products">
-  <div class="row">
-    <?php foreach($products as $product):?>
-      <div class="col">
-        <?php include 'card.php'?>
-      </div>
-    <?php endforeach;?>
-  </div>
-
-
-</section>
-<script src="assets/js/bootstrap.bundle.js"></script>
-</body>
-</html>

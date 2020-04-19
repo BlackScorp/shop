@@ -50,3 +50,21 @@ function getCartSumForUserId(int $userId): int{
   }
   return (int)$result->fetchColumn();
 }
+
+function moveCartProductsToAnotherUser(int $sourceUserId,int $targetUserId):int{
+  $sql="UPDATE cart
+        SET user_id =:targetUserId
+        WHERE  user_id=:sourceUserId";
+
+  $statement = getDb()->prepare($sql);
+  if(false === $statement){
+    return 0;
+  }
+
+  return $statement->execute(
+    [
+      ':targetUserId'=>$targetUserId,
+      ':sourceUserId'=>$sourceUserId
+    ]
+  );
+}
