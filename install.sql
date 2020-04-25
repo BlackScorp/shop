@@ -25,7 +25,9 @@ CREATE TABLE IF NOT EXISTS `cart` (
   CONSTRAINT `FK_cart_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgewählt
+
+/*!40000 ALTER TABLE `cart` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cart` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle shop.products
 DROP TABLE IF EXISTS `products`;
@@ -37,7 +39,15 @@ CREATE TABLE IF NOT EXISTS `products` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgewählt
+-- Exportiere Daten aus Tabelle shop.products: ~0 rows (ungefähr)
+DELETE FROM `products`;
+/*!40000 ALTER TABLE `products` DISABLE KEYS */;
+INSERT INTO `products` (`id`, `title`, `description`, `price`) VALUES
+	(1, 'Produkt 1', 'Tolles Produkt', 166),
+	(2, 'Produkt 2', 'Anderes Produkt', 1337),
+	(3, 'Produkt 3', 'Noch mehr Produkte', 42),
+	(4, 'Produkt 4', 'Alle guten Dinge sind 4', 2020);
+/*!40000 ALTER TABLE `products` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle shop.user
 DROP TABLE IF EXISTS `user`;
@@ -49,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Daten Export vom Benutzer nicht ausgewählt
+
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
