@@ -23,11 +23,35 @@ CREATE TABLE IF NOT EXISTS `cart` (
   UNIQUE KEY `product_id_user_id` (`product_id`,`user_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `FK_cart_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+
+-- Exportiere Daten aus Tabelle shop.cart: ~2 rows (ungefähr)
+DELETE FROM `cart`;
+/*!40000 ALTER TABLE `cart` DISABLE KEYS */;
+INSERT INTO `cart` (`id`, `user_id`, `product_id`, `quantity`, `created`) VALUES
+	(1, 1, 1, 1, '2020-04-26 14:14:18'),
+	(2, 1, 2, 1, '2020-04-26 14:14:20');
+/*!40000 ALTER TABLE `cart` ENABLE KEYS */;
+
+-- Exportiere Struktur von Tabelle shop.delivery_adresses
+DROP TABLE IF EXISTS `delivery_adresses`;
+CREATE TABLE IF NOT EXISTS `delivery_adresses` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `reciepient` text NOT NULL,
+  `city` text NOT NULL,
+  `street` text NOT NULL,
+  `streetNumber` varchar(50) NOT NULL,
+  `zipCode` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_user_delivery_addresses` (`user_id`),
+  CONSTRAINT `FK_user_delivery_addresses` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
-/*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cart` ENABLE KEYS */;
+-- Exportiere Daten aus Tabelle shop.delivery_adresses: ~0 rows (ungefähr)
+DELETE FROM `delivery_adresses`;
+/*!40000 ALTER TABLE `delivery_adresses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `delivery_adresses` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle shop.products
 DROP TABLE IF EXISTS `products`;
@@ -37,9 +61,9 @@ CREATE TABLE IF NOT EXISTS `products` (
   `description` text CHARACTER SET utf8 NOT NULL,
   `price` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
--- Exportiere Daten aus Tabelle shop.products: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle shop.products: ~4 rows (ungefähr)
 DELETE FROM `products`;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
 INSERT INTO `products` (`id`, `title`, `description`, `price`) VALUES
@@ -57,9 +81,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(191) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
-
+-- Exportiere Daten aus Tabelle shop.user: ~1 rows (ungefähr)
+DELETE FROM `user`;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`id`, `username`, `password`) VALUES
+	(1, 'test', '$2y$10$/wFthkyVlBK4fkrCoggdQuHdqLDZrlBRglk2g898Lw/ggrHdJDxwa');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
