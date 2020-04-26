@@ -45,7 +45,7 @@ if(strpos($route,'/cart') !== false){
   exit();
 }
 if(strpos($route,'/login') !== false){
-  $isPost = strtoupper($_SERVER['REQUEST_METHOD']) === 'POST';
+  $isPost = isPost();
   $username ="";
   $password= "";
   $errors = [];
@@ -99,6 +99,7 @@ if(strpos($route,'/checkout') !== false){
     exit();
   }
 
+  require __DIR__.'/templates/selectDeliveryAddress.php';
   exit();
 }
 
@@ -110,5 +111,65 @@ if(strpos($route,'/logout') !== false){
     $redirectTarget = $_SESSION['redirectTarget'];
   }
   header("Location: ". $redirectTarget);
+  exit();
+}
+
+if(strpos($route,'/deliveryAddress/add') !== false){
+  if(false === isLoggedIn()){
+    $_SESSION['redirectTarget'] = $baseUrl.'index.php/deliveryAddress/add';
+    header("Location: ".$baseUrl."index.php/login");
+    exit();
+  }
+  $recipient = "";
+  $city ="";
+  $street = "";
+  $streetNumber ="";
+  $zipCode ="";
+  $recipientIsValid = true;
+  $cityIsValid = true;
+  $streetIsValid =true;
+  $streetNumberIsValid = true;
+  $zipCodeIsValid = true;
+  $isPost = isPost();
+  $errors = [];
+  if($isPost){
+    $recipient = filter_input(INPUT_POST,'recipient',FILTER_SANITIZE_SPECIAL_CHARS);
+    $recipient = trim($recipient);
+    $city = filter_input(INPUT_POST,'city',FILTER_SANITIZE_SPECIAL_CHARS);
+    $city = trim($city);
+    $street = filter_input(INPUT_POST,'street',FILTER_SANITIZE_SPECIAL_CHARS);
+    $street = trim($street);
+    $streetNumber = filter_input(INPUT_POST,'streetNumber',FILTER_SANITIZE_SPECIAL_CHARS);
+    $streetNumber = trim($streetNumber);
+    $zipCode = filter_input(INPUT_POST,'zipCode',FILTER_SANITIZE_SPECIAL_CHARS);
+    $zipCode = trim($zipCode);
+
+    if(!$recipient){
+      $errors[]="Bitte Empfänger eintragen";
+      $recipientIsValid = false;
+    }
+    if(!$city){
+      $errors[]="Bitte Stadt eintragen";
+      $cityIsValid = false;
+    }
+    if(!$street){
+      $errors[]="Bitte Stasse eintragen";
+      $streetIsValid = false;
+    }
+    if(!$streetNumber){
+      $errors[]="Bitte Hausnummer eintragen";
+      $streetNumberIsValid = false;
+    }
+    if(!$zipCode){
+      $errors[]="Bitte PLZ Eintragen";
+      $zipCodeIsValid = false;
+    }
+    if(count($errors) === 0){
+      //
+    }
+  }
+  $hasErrors = count($errors) > 0;
+
+  require __DIR__.'/templates/selectDeliveryAddress.php';
   exit();
 }
