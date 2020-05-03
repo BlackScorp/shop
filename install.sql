@@ -38,7 +38,7 @@ DROP TABLE IF EXISTS `delivery_adresses`;
 CREATE TABLE IF NOT EXISTS `delivery_adresses` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
-  `reciepient` text NOT NULL,
+  `recipient` text NOT NULL,
   `city` text NOT NULL,
   `street` text NOT NULL,
   `streetNumber` varchar(50) NOT NULL,
