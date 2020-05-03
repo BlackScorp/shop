@@ -5,4 +5,5 @@ require_once __DIR__.'/function/cart.php';
 require_once __DIR__.'/function/user.php';
 require_once __DIR__.'/function/product.php';
 require_once __DIR__.'/function/utilities.php';
+require_once __DIR__.'/function/deliveryAddresses.php';
 require_once __DIR__.'/routes.php';

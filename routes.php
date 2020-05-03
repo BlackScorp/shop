@@ -98,7 +98,18 @@ if(strpos($route,'/checkout') !== false){
     header("Location: ".$baseUrl."index.php/login");
     exit();
   }
-
+  $recipient = "";
+  $city ="";
+  $street = "";
+  $streetNumber ="";
+  $zipCode ="";
+  $recipientIsValid = true;
+  $cityIsValid = true;
+  $streetIsValid =true;
+  $streetNumberIsValid = true;
+  $zipCodeIsValid = true;
+  $errors = [];
+  $hasErrors = count($errors) >0;
   require __DIR__.'/templates/selectDeliveryAddress.php';
   exit();
 }
@@ -165,7 +176,13 @@ if(strpos($route,'/deliveryAddress/add') !== false){
       $zipCodeIsValid = false;
     }
     if(count($errors) === 0){
-      //
+      $deliveryAddresId = saveDeliveryAddressForUser($userId,$recipient,$city,$zipCode,$street,$streetNumber);
+      if($deliveryAddresId > 0){
+        $_SESSION['deliveryAddressId'] = $deliveryAddresId;
+        header("Location: ".$baseUrl."index.php/selectPayment");
+        exit();
+      }
+      $errors[]="Fehler beim Speicher der Lieferadresse Fehlermeldung: ".printDBErrorMessage();
     }
   }
   $hasErrors = count($errors) > 0;
