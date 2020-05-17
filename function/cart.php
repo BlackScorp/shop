@@ -4,13 +4,15 @@ function addProductToCart(int $userId,int $productId,int $quantity = 1){
   SET quantity=:quantity,user_id = :userId,product_id = :productId
   ON DUPLICATE KEY UPDATE quantity = quantity +:quantity
   ";
-  $statement = getDB()->prepare($sql);
 
-  $statement->execute([
+  $statement = getDB()->prepare($sql);
+  $data =[
     ':userId'=>  $userId ,
     ':productId'=>$productId,
     ':quantity'=>$quantity
-  ]);
+  ];
+
+  $statement->execute($data);
 }
 
 function countProductsInCart(int $userId){
@@ -28,13 +30,19 @@ function getCartItemsForUserId(int $userId):array{
   $sql ="SELECT product_id,title,description,price,quantity
           FROM cart
           JOIN products ON(cart.product_id = products.id)
-          WHERE user_id = ".$userId;
-  $results = getDb()->query($sql);
-  if($results === false){
+          WHERE user_id = :userId";
+
+  $statement = getDb()->prepare($sql);
+  if(false === $statement){
     return [];
   }
+  $data = [
+    ':userId'=>$userId
+  ];
+  $statement->execute($data);
+
   $found = [];
-  while($row = $results->fetch()){
+  while($row = $statement->fetch()){
     $found[]=$row;
   }
   return $found;
@@ -61,11 +69,13 @@ function deleteProductInCartForUserId(int $userId,int $productId):int{
   if(false === $statement){
     return 0;
   }
+$data =[
+    ':userId'=>$userId,
+    ':productId'=>$productId
+  ];
+
   return $statement->execute(
-    [
-      ':userId'=>$userId,
-      ':productId'=>$productId
-    ]
+    $data
   );
 
 }

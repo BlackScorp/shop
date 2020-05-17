@@ -10,6 +10,7 @@ if(false !== $indexPHPPosition){
 if(substr($baseUrl,-1) !== '/'){
   $baseUrl .='/';
 }
+define('BASE_URL',$baseUrl);
 
 $route = null;
 
@@ -93,11 +94,7 @@ if(strpos($route,'/login') !== false){
   exit();
 }
 if(strpos($route,'/checkout') !== false){
-  if(!isLoggedIn()){
-    $_SESSION['redirectTarget'] = $baseUrl.'index.php/checkout';
-    header("Location: ".$baseUrl."index.php/login");
-    exit();
-  }
+  redirectIfNotLogged('/checkout');
   $recipient = "";
   $city ="";
   $street = "";
@@ -116,21 +113,18 @@ if(strpos($route,'/checkout') !== false){
 }
 
 if(strpos($route,'/logout') !== false){
-  session_regenerate_id(true);
-  session_destroy();
   $redirectTarget = $baseUrl.'index.php';
   if(isset($_SESSION['redirectTarget'])){
     $redirectTarget = $_SESSION['redirectTarget'];
   }
+  session_regenerate_id(true);
+  session_destroy();
   header("Location: ". $redirectTarget);
   exit();
 }
 if(strpos($route,'/selectDeliveryAddress') !== false){
-  if(!isLoggedIn()){
-    $_SESSION['redirectTarget'] = $baseUrl.'index.php/checkout';
-    header("Location: ".$baseUrl."index.php/login");
-    exit();
-  }
+  redirectIfNotLogged('/checkout');
+
   $routeParts = explode('/',$route);
   $deliveryAddressId = (int)$routeParts[2];
   if(deliveryAddressBelongsToUser($deliveryAddressId,$userId)){
@@ -142,11 +136,7 @@ if(strpos($route,'/selectDeliveryAddress') !== false){
   exit();
 }
 if(strpos($route,'/deliveryAddress/add') !== false){
-  if(false === isLoggedIn()){
-    $_SESSION['redirectTarget'] = $baseUrl.'index.php/deliveryAddress/add';
-    header("Location: ".$baseUrl."index.php/login");
-    exit();
-  }
+    redirectIfNotLogged('/deliveryAddress/add');
   $recipient = "";
   $city ="";
   $street = "";
@@ -205,5 +195,12 @@ if(strpos($route,'/deliveryAddress/add') !== false){
   $hasErrors = count($errors) > 0;
 
   require __DIR__.'/templates/selectDeliveryAddress.php';
+  exit();
+}
+
+if(strpos($route,'/selectPayment') !== false){
+  redirectIfNotLogged('/selectPayment');
+  
+  require __DIR__.'/templates/selectPayment.php';
   exit();
 }
