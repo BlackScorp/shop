@@ -200,7 +200,8 @@ if(strpos($route,'/deliveryAddress/add') !== false){
 
 if(strpos($route,'/selectPayment') !== false){
   redirectIfNotLogged('/selectPayment');
-  
+  $accessToken = getAccessToken();
+  $accessToken = getAccessToken();
   require __DIR__.'/templates/selectPayment.php';
   exit();
 }
