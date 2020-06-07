@@ -101,6 +101,7 @@ $dataString = json_encode($data);
 
     return '';
   }
+  setPayPalOrderId($data['id']);
   $url = '';
   foreach($data['links'] as $link){
     if($link['rel'] !== "approve"){
@@ -110,4 +111,51 @@ $dataString = json_encode($data);
   }
 
  header("Location: ".$url);
+}
+
+function setPayPalOrderId(string $orderId):void{
+  $_SESSION['paypalOrderId'] = $orderId;
+}
+function getPayPalOrderId():?string{
+  return isset($_SESSION['paypalOrderId'])?$_SESSION['paypalOrderId']:null;
+}
+function setPayPalRequestId(string $paypalRequestId):void{
+  $_SESSION['paypalRequestId'] = $payPalRequestId;
+}
+function getPayPalRequestId():?string{
+  return isset($_SESSION['paypalRequestId'])?$_SESSION['paypalRequestId']:null;
+}
+function capturePayment(string $accessToken,string $orderId,string $token){
+  require_once CONFIG_DIR.'/paypal.php';
+$data = new stdClass();
+
+$data->payment_source = new stdClass();
+$data->payment_source->token = new stdClass();
+$data->payment_source->token->id =$token;
+ $data->payment_source->token->type ="BILLING_AGREEMENT";
+    $dataString = json_encode($data);
+
+    $curl = curl_init();
+    $options = [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_URL =>PAYPAL_BASE_URL.'/v2/checkout/orders/'.$orderId.'/capture',
+        CURLOPT_HTTPHEADER => [
+          'Content-Type: application/json',
+          'Authorization: Bearer '.$accessToken,
+          //'PayPal-Request-Id: '.$payPalRequestId
+        ],
+
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS=>$dataString
+    ];
+    curl_setopt_array($curl,$options);
+    $result = curl_exec($curl);
+    if(curl_errno($curl)){
+      curl_close($curl);
+      echo curl_error($curl);
+      return'';
+    }
+    curl_close($curl);
+    $data = json_decode($result,true);
+    var_dump($data);
 }

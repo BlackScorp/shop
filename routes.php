@@ -206,3 +206,18 @@ if(strpos($route,'/selectPayment') !== false){
   require __DIR__.'/templates/selectPayment.php';
   exit();
 }
+
+if(strpos($route,'/paymentComplete') !== false){
+  redirectIfNotLogged('/checkout');
+  $accessToken = getAccessToken();
+  $orderId = getPayPalOrderId();
+  $payPalRequestId = getPayPalRequestId();
+  $token =filter_input(INPUT_GET,'token',FILTER_SANITIZE_STRING);
+
+  if($accessToken && $orderId && $token){
+      capturePayment($accessToken,$orderId,$token,$payerId);
+  }
+  require __DIR__.'/templates/checkoutOverview.php';
+  
+  exit();
+}
