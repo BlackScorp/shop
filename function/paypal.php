@@ -159,3 +159,25 @@ $data->payment_source->token->id =$token;
     $data = json_decode($result,true);
     var_dump($data);
 }
+
+function paypalCreateOrder(array $deliveryAddressData,array $cartProducts){
+  $accessToken = getAccessToken();
+  createOrder($accessToken,[]);
+}
+function paypalPaymentComplete(){
+  $accessToken = getAccessToken();
+  $orderId = getPayPalOrderId();
+  $payPalRequestId = getPayPalRequestId();
+  $token =filter_input(INPUT_GET,'token',FILTER_SANITIZE_STRING);
+
+  if($accessToken && $orderId && $token){
+      capturePayment($accessToken,$orderId,$token);
+  }
+}
+function vorkassePaymentComplete(){
+  //TODO
+}
+function vorkasseCreateOrder(array $deliveryAddressData,array $cartProducts){
+  //TODO;
+  header("Location ".BASE_URL."index.php/paymentComplete");
+}

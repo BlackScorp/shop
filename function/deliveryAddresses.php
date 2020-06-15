@@ -26,7 +26,25 @@ function saveDeliveryAddressForUser(int $userId,string $recipient,string $city,s
 
   return (int)getDB()->lastInsertId();
 }
+function getDeliveryAddressDataForUser(int $deliveryAddresId,int $userId):?array{
+  $sql ="SELECT id,recipient,city,street,streetNumber,zipCode
+FROM delivery_adresses
+WHERE user_id =:userId
+AND id=:deliveryAddressId
+LIMIT 1
+";
 
+
+  $statement = getDB()->prepare($sql);
+  if(false === $statement){
+    return null;
+  }
+
+
+  $statement->execute([':userId'=>$userId,':deliveryAddressId'=>$deliveryAddresId]);
+  $address = $statement->fetch();
+  return $address;
+}
 function getDeliveryAddressesForUser(int $userId):array{
   $sql ="SELECT id,recipient,city,street,streetNumber,zipCode
 FROM delivery_adresses

@@ -128,7 +128,7 @@ if(strpos($route,'/selectDeliveryAddress') !== false){
   $routeParts = explode('/',$route);
   $deliveryAddressId = (int)$routeParts[2];
   if(deliveryAddressBelongsToUser($deliveryAddressId,$userId)){
-    $_SESSION['deliveryAddressId'] = $deliveryAddresId;
+    $_SESSION['deliveryAddressId'] = $deliveryAddressId;
     header("Location: ".$baseUrl."index.php/selectPayment");
     exit();
   }
@@ -200,24 +200,56 @@ if(strpos($route,'/deliveryAddress/add') !== false){
 
 if(strpos($route,'/selectPayment') !== false){
   redirectIfNotLogged('/selectPayment');
-  $accessToken = getAccessToken();
-  createOrder($accessToken,[]);
+  if(!isset($_SESSION['deliveryAddressId'])){
+    header("Location: ".$baseUrl."index.php/checkout");
+    exit();
+  }
+  $errors = [];
+  $avaliablePaymentMethods = [
+    "paypal"=>"PayPal",
+    "vorkasse" => "Vorkasse"
+  ];
+  if(isPost()){
+    $paymentMethod = filter_input(INPUT_POST,'paymentMethod',FILTER_SANITIZE_STRING);
 
+    if(!$paymentMethod){
+      $errors[]="Bitte bezahl methode auswählen";
+    }
+    if($paymentMethod && !in_array($paymentMethod,array_keys($avaliablePaymentMethods))){
+      $errors[]="Ungültige Auswahl";
+    }
+    $deliveryAddressData = getDeliveryAddressDataForUser($_SESSION['deliveryAddressId'],getCurrentUserId());
+    if(!$deliveryAddressData){
+        $errors[]="Ausgewälte Lieferadresse wurde nicht gefunden";
+    }
+      $cartProducts = getCartItemsForUserId(getCurrentUserId());
+      if(count($cartProducts) === 0){
+        $errors[]="Warenkorb ist leer";
+      }
+    if(count($errors) === 0){
+      $functionName =   $paymentMethod.'CreateOrder';
+      $_SESSION['paymentMethod'] = $paymentMethod;
+      call_user_func_array($functionName,[$deliveryAddressData,$cartProducts]);
+    }
+
+  }
+
+  $hasErrors = count($errors) > 0;
   require __DIR__.'/templates/selectPayment.php';
   exit();
 }
 
 if(strpos($route,'/paymentComplete') !== false){
   redirectIfNotLogged('/checkout');
-  $accessToken = getAccessToken();
-  $orderId = getPayPalOrderId();
-  $payPalRequestId = getPayPalRequestId();
-  $token =filter_input(INPUT_GET,'token',FILTER_SANITIZE_STRING);
-
-  if($accessToken && $orderId && $token){
-      capturePayment($accessToken,$orderId,$token,$payerId);
+  if(!isset($_SESSION['paymentMethod'])){
+    header("Location: ".$baseUrl."index.php/selectPayment");
+    exit();
   }
+
+  $functionName =   $_SESSION['paymentMethod'].'PaymentComplete';
+  call_user_func_array($functionName,[]);
+
   require __DIR__.'/templates/checkoutOverview.php';
-  
+
   exit();
 }

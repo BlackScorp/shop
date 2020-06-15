@@ -82,6 +82,9 @@ $data =[
 
 function moveCartProductsToAnotherUser(int $sourceUserId,int $targetUserId):int{
 
+if($sourceUserId === $targetUserId){
+  return 0;
+}
   $oldCartItems = getCartItemsForUserId($sourceUserId);
   if(count($oldCartItems) === 0){
     return 0;
