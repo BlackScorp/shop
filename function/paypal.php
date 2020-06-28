@@ -39,19 +39,22 @@ function getAccessToken():string{
     return $accessToken;
 
 }
+function getMoneyObject(string $value,string $currecyCode = "EUR"):stdClass{
+  $object = new stdClass();
+  $object->value= number_format($value,2);
+  $object->currency_code = $currecyCode;
+  return $object;
+}
 function productToPayPalItem(array $product):stdClass{
   $item = new stdClass();
   $item->name = $product['title'];
   $price = $product['price'];
-  $tax = $price * 0.19;
-  $netPrice = $price - $tax;
+  $tax = $price * 0.19 ;
+  $netPrice = ($price - $tax);
 
-  $item->unit_amount = new stdClass();
-  $item->unit_amount->currency_code ="EUR";
-  $item->unit_amount->value = number_format($netPrice/100,2);
-  $item->tax = new stdClass();
-  $item->tax->currency_code ="EUR";
-  $item->tax->value =number_format($tax/100,2);
+  $item->unit_amount = getMoneyObject($netPrice/100);
+  $item->tax = getMoneyObject($tax/100);
+
   $item->quantity = $product['quantity'];
   $item->category = 'PHYSICAL_GOODS';
   $item->description = $product['description'];
@@ -80,22 +83,18 @@ $taxTotal = 0;
 foreach($products as $product){
   $item = productToPayPalItem($product);
   $object->items[]= $item;
-  $itemsTotal += $item->unit_amount->value;
-  $taxTotal +=$item->tax->value;
-  $totalValue+=(int)$product['price'];
+  $itemsTotal += $item->unit_amount->value * (int)$product['quantity'];
+  $taxTotal +=$item->tax->value * (int)$product['quantity'];
+  $totalValue+=(int)$product['price'] * (int)$product['quantity'];
 }
-$amountObject = new stdClass();
-$amountObject->currency_code ="EUR";
+$totalValue = $totalValue/ 100;
+$amountObject = getMoneyObject($totalValue);
+
 $amountObject->breakdown = new stdClass();
-$amountObject->breakdown->item_total = new stdClass();
-$amountObject->breakdown->item_total->value = $itemsTotal;
-$amountObject->breakdown->item_total->currency_code = "EUR";
-$amountObject->breakdown->tax_total = new stdClass();
-$amountObject->breakdown->tax_total->value = $taxTotal;
-$amountObject->breakdown->tax_total->currency_code = "EUR";
+$amountObject->breakdown->item_total = getMoneyObject($itemsTotal);
+$amountObject->breakdown->tax_total = getMoneyObject($taxTotal);
 
 
-$amountObject->value =number_format($totalValue/100,2);
 $object->amount=$amountObject;
 
 $object->shipping = new stdClass();
@@ -144,7 +143,10 @@ $dataString = json_encode($data);
 
     return '';
   }
-  var_dump($data);
+  if(!isset($data['id'])){
+    var_dump($data);
+    return'';
+  }
   setPayPalOrderId($data['id']);
   $url = '';
   foreach($data['links'] as $link){
@@ -201,7 +203,7 @@ $data->payment_source->token->id =$token;
     }
     curl_close($curl);
     $data = json_decode($result,true);
-    var_dump($data);
+
 }
 
 function paypalCreateOrder(array $deliveryAddressData,array $cartProducts){

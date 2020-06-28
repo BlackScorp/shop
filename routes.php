@@ -245,11 +245,26 @@ if(strpos($route,'/paymentComplete') !== false){
     header("Location: ".$baseUrl."index.php/selectPayment");
     exit();
   }
+  $userId = getCurrentUserId();
+  $cartItems = getCartItemsForUserId($userId);
+  $cartSum = getCartSumForUserId($userId);
+  if($_SESSION['paymentMethod'] === 'paypal'){
+    $_SESSION['paypalOrderToken'] = filter_input(INPUT_GET,'token',FILTER_SANITIZE_STRING);
+  }
 
+/*
   $functionName =   $_SESSION['paymentMethod'].'PaymentComplete';
   call_user_func_array($functionName,[]);
-
+*/
   require __DIR__.'/templates/checkoutOverview.php';
 
   exit();
+}
+if(strpos($route,'/completeOrder') !== false){
+  redirectIfNotLogged('/checkout');
+  if(!isset($_SESSION['paymentMethod'])){
+    header("Location: ".$baseUrl."index.php/selectPayment");
+    exit();
+  }
+  
 }
