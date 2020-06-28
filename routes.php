@@ -266,5 +266,6 @@ if(strpos($route,'/completeOrder') !== false){
     header("Location: ".$baseUrl."index.php/selectPayment");
     exit();
   }
-  
+
+  //
 }
