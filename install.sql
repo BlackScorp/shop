@@ -90,6 +90,36 @@ INSERT INTO `user` (`id`, `username`, `password`) VALUES
 	(1, 'test', '$2y$10$/wFthkyVlBK4fkrCoggdQuHdqLDZrlBRglk2g898Lw/ggrHdJDxwa');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
+-- Exportiere Struktur von Tabelle shop.orders
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE IF NOT EXISTS `orders` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `orderDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('new','canceled','payed','sent','delivered') NOT NULL DEFAULT 'new',
+  `userId` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `orderDate` (`orderDate`),
+  KEY `status` (`status`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `FK_ORDER_TO_USER` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- Exportiere Struktur von Tabelle shop.order_products
+DROP TABLE IF EXISTS `order_products`;
+CREATE TABLE IF NOT EXISTS `order_products` (
+  `id` int(10) unsigned NOT NULL,
+  `title` varchar(50) NOT NULL DEFAULT '',
+  `quantity` int(10) unsigned NOT NULL DEFAULT '0',
+  `price` int(10) unsigned NOT NULL DEFAULT '0',
+  `taxInPercent` int(10) unsigned NOT NULL DEFAULT '0',
+  `orderId` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `FK_ODERS_TO_ORDER_PRODUCTS` (`orderId`),
+  CONSTRAINT `FK_ODERS_TO_ORDER_PRODUCTS` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -60,9 +60,9 @@ function productToPayPalItem(array $product):stdClass{
   $item->description = $product['description'];
   return $item;
 }
-function createOrder(string $accessToken,array $deliveryAddressData,array $products){
+function paypalCreateOrder(array $deliveryAddressData,array $products){
   require_once CONFIG_DIR.'/paypal.php';
-
+$accessToken = getAccessToken();
 
 $payer = new stdClass();
 $payer->name = new stdClass();
@@ -206,10 +206,6 @@ $data->payment_source->token->id =$token;
 
 }
 
-function paypalCreateOrder(array $deliveryAddressData,array $cartProducts){
-  $accessToken = getAccessToken();
-  createOrder($accessToken,$deliveryAddressData,$cartProducts);
-}
 function paypalPaymentComplete(){
   $accessToken = getAccessToken();
   $orderId = getPayPalOrderId();

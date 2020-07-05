@@ -260,12 +260,20 @@ if(strpos($route,'/paymentComplete') !== false){
 
   exit();
 }
+
 if(strpos($route,'/completeOrder') !== false){
   redirectIfNotLogged('/checkout');
   if(!isset($_SESSION['paymentMethod'])){
     header("Location: ".$baseUrl."index.php/selectPayment");
     exit();
   }
-
+  $userId = getCurrentUserId();
+  $cartItems =  getCartItemsForUserId($userId);
+  if(createOrder($userId,$cartItems)){
+    clearCartForUser($userId);
+    require __DIR__.'/templates/thankyYouPage.php';
+    exit();
+  }
+  
   //
 }

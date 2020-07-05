@@ -98,3 +98,9 @@ if($sourceUserId === $targetUserId){
 
   return $movedProducts;
 }
+
+function clearCartForUser(int $userId){
+  $sql ="DELETE FROM cart WHERE user_id = :userId";
+  $statement = getDB()->prepare($sql);
+  $statement->execute([':userId' => $userId]);
+}
