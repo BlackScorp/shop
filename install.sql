@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
 -- Exportiere Struktur von Tabelle shop.order_products
 DROP TABLE IF EXISTS `order_products`;
 CREATE TABLE IF NOT EXISTS `order_products` (
-  `id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL DEFAULT '',
   `quantity` int(10) unsigned NOT NULL DEFAULT '0',
   `price` int(10) unsigned NOT NULL DEFAULT '0',

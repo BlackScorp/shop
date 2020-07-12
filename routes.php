@@ -274,6 +274,27 @@ if(strpos($route,'/completeOrder') !== false){
     require __DIR__.'/templates/thankyYouPage.php';
     exit();
   }
-  
+
   //
+}
+if(strpos($route,'/invoice') !== false){
+redirectIfNotLogged('/');
+$routeParts =  explode('/',$route);
+  $invoiceId = null;
+if(isset($routeParts[2])){
+  $invoiceId=(int)$routeParts[2];
+}
+if(!$invoiceId){
+echo "Rechnung nicht angegeben";
+  exit();
+}
+$userId = getCurrentUserId();
+
+$orderData = getOrderForUser($invoiceId,$userId);
+if(!$orderData){
+  echo "Daten wurden nicht gefunden";
+  exit();
+}
+require_once __DIR__.'/templates/invoice.php';
+exit();
 }
