@@ -15,7 +15,10 @@ function addProductToCart(int $userId,int $productId,int $quantity = 1){
   $statement->execute($data);
 }
 
-function countProductsInCart(int $userId){
+function countProductsInCart(?int $userId){
+  if(null === $userId){
+    return 0;
+  }
   $sql ="SELECT COUNT(id) FROM cart WHERE user_id =".$userId;
   $cartResults = getDB()->query($sql);
   if($cartResults === false){

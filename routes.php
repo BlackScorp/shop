@@ -24,7 +24,6 @@ if(false !== $indexPHPPosition){
 $userId = getCurrentUserId();
 $countCartItems = countProductsInCart($userId);
 
-setcookie('userId',$userId,strtotime('+30 days'),$baseUrl);
 
 if(!$route){
   $products = getAllProducts();
@@ -32,8 +31,12 @@ if(!$route){
   exit();
 }
 if(strpos($route,'/cart/add/') !== false){
+
   $routeParts = explode('/',$route);
   $productId = (int)$routeParts[3];
+  $_SESSION['redirectTarget'] =$baseUrl."index.php/cart/add/".$productId;
+
+  redirectIfNotLogged('/login');
   addProductToCart($userId,$productId);
   header("Location: ".$baseUrl."index.php");
   exit();
@@ -252,10 +255,7 @@ if(strpos($route,'/paymentComplete') !== false){
     $_SESSION['paypalOrderToken'] = filter_input(INPUT_GET,'token',FILTER_SANITIZE_STRING);
   }
 
-/*
-  $functionName =   $_SESSION['paymentMethod'].'PaymentComplete';
-  call_user_func_array($functionName,[]);
-*/
+
   require __DIR__.'/templates/checkoutOverview.php';
 
   exit();
@@ -269,6 +269,16 @@ if(strpos($route,'/completeOrder') !== false){
   }
   $userId = getCurrentUserId();
   $cartItems =  getCartItemsForUserId($userId);
+
+  $functionName =   $_SESSION['paymentMethod'].'PaymentComplete';
+  $parameter =[];
+  if($_SESSION['paymentMethod'] === 'paypal'){
+    $parameter=[
+      $_SESSION['paypalOrderToken']
+    ];
+  }
+  call_user_func_array($functionName,  $parameter);
+
   if(createOrder($userId,$cartItems)){
     clearCartForUser($userId);
     require __DIR__.'/templates/thankyYouPage.php';

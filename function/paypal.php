@@ -206,11 +206,11 @@ $data->payment_source->token->id =$token;
 
 }
 
-function paypalPaymentComplete(){
+function paypalPaymentComplete($token){
   $accessToken = getAccessToken();
   $orderId = getPayPalOrderId();
   $payPalRequestId = getPayPalRequestId();
-  $token =filter_input(INPUT_GET,'token',FILTER_SANITIZE_STRING);
+  //$token =filter_input(INPUT_GET,'token',FILTER_SANITIZE_STRING);
 
   if($accessToken && $orderId && $token){
       capturePayment($accessToken,$orderId,$token);
