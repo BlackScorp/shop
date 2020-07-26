@@ -26,8 +26,8 @@ function getAccessToken():string{
     curl_setopt_array($curl,$options);
     $result = curl_exec($curl);
     if(curl_errno($curl)){
-      curl_close($curl);
       echo curl_error($curl);
+      curl_close($curl);
       return'';
     }
     curl_close($curl);
@@ -132,8 +132,8 @@ $dataString = json_encode($data);
   curl_setopt_array($curl,$options);
   $result = curl_exec($curl);
   if(curl_errno($curl)){
-    curl_close($curl);
     echo curl_error($curl);
+    curl_close($curl);
     return'';
   }
   curl_close($curl);
@@ -197,8 +197,8 @@ $data->payment_source->token->id =$token;
     curl_setopt_array($curl,$options);
     $result = curl_exec($curl);
     if(curl_errno($curl)){
-      curl_close($curl);
       echo curl_error($curl);
+      curl_close($curl);
       return'';
     }
     curl_close($curl);
