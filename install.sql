@@ -119,6 +119,20 @@ CREATE TABLE IF NOT EXISTS `order_products` (
   CONSTRAINT `FK_ODERS_TO_ORDER_PRODUCTS` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS `order_adresses` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) unsigned NOT NULL,
+  `recipient` mediumtext NOT NULL,
+  `city` text NOT NULL,
+  `street` text NOT NULL,
+  `streetNumber` varchar(50) NOT NULL,
+  `zipCode` varchar(50) NOT NULL,
+  `typ` enum('both','delivery','invoice') DEFAULT 'both',
+  PRIMARY KEY (`id`),
+  KEY `FK_ORDER_ADRESS` (`order_id`),
+  KEY `typ` (`typ`),
+  CONSTRAINT `FK_ORDER_ADRESS` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
