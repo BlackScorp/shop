@@ -29,7 +29,10 @@ function countProductsInCart(?int $userId){
   return $cartItems;
 }
 
-function getCartItemsForUserId(int $userId):array{
+function getCartItemsForUserId(?int $userId):array{
+  if(null === $userId){
+    return [];
+  }
   $sql ="SELECT product_id,title,description,price,quantity
           FROM cart
           JOIN products ON(cart.product_id = products.id)
@@ -51,7 +54,10 @@ function getCartItemsForUserId(int $userId):array{
   return $found;
 }
 
-function getCartSumForUserId(int $userId): int{
+function getCartSumForUserId(?int $userId): int{
+  if(null === $userId){
+    return 0;
+  }
   $sql ="SELECT SUM(price * quantity)
           FROM cart
           JOIN products ON(cart.product_id = products.id)
