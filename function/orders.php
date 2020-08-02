@@ -1,19 +1,53 @@
 <?php
 
-function createOrder(int $userId,array $cartItems,string $status = 'new'):bool{
+function createOrder(int $userId,array $cartItems,array $deliveryAddressData,string $status = 'new'):bool{
 
     $sql ="INSERT INTO orders SET
       status = :status,
       userId = :userId
     ";
     $statement = getDB()->prepare($sql);
+    if(false === $statement){
+      echo printDBErrorMessage();
+      return false;
+    }
     $data = [
       ':status'=>$status,
       ':userId' => $userId
     ];
-    $statement->execute($data);
+    $created = $statement->execute($data);
+    if(false === $created){
+        echo printDBErrorMessage();
+      return false;
+    }
     $orderId = getDB()->lastInsertId();
 
+    $sql ="INSERT INTO order_adresses SET
+    order_id = :orderId,
+    recipient = :recipient,
+    city = :city,
+    street = :street,
+    streetNumber = :streetNumber,
+    zipCode = :zipCode
+    ";
+  $statement = getDB()->prepare($sql);
+  if(false === $statement){
+    echo printDBErrorMessage();
+    return false;
+  }
+  $data = [
+      ':orderId'=>  $orderId,
+      ':recipient'=>$deliveryAddressData['recipient'],
+      ':city'=>$deliveryAddressData['city'],
+      ':street'=>$deliveryAddressData['street'],
+      ':streetNumber'=>$deliveryAddressData['streetNumber'],
+      ':zipCode'=>$deliveryAddressData['zipCode'],
+  ];
+      $created = $statement->execute($data);
+      if(false === $created){
+          echo printDBErrorMessage();
+        return false;
+      }
     $sql ="INSERT INTO order_products SET
     title=:title,
     quantity = :quantity,
@@ -22,7 +56,10 @@ function createOrder(int $userId,array $cartItems,string $status = 'new'):bool{
     orderId = :orderId
     ";
     $statement = getDB()->prepare($sql);
-
+    if(false === $statement){
+      echo printDBErrorMessage();
+      return false;
+    }
     foreach($cartItems as $cartItem){
       $taxInPercent = 19;
       $price = $cartItem['price'];
@@ -35,9 +72,13 @@ function createOrder(int $userId,array $cartItems,string $status = 'new'):bool{
         ':taxInPercent'=>19,
         ':orderId'=>$orderId
       ];
-      $statement->execute($data);
+      $created = $statement->execute($data);
+      if(false === $created){
+        echo printDBErrorMessage();
+        break;
+      }
     }
-    return true;
+    return $created;
 }
 
 function getOrderForUser(int $orderId,int $userId):?array{
@@ -59,8 +100,32 @@ function getOrderForUser(int $orderId,int $userId):?array{
     if(0 === $statement->rowCount()){
       return null;
     }
+
     $orderData =$statement->fetch();
     $orderData['products'] = [];
+    $orderData['deliveryAddressData'] = [];
+    $sql ="SELECT recipient,streetNumber,city,street,zipCode,`type`
+    FROM order_adresses
+    WHERE order_id = :orderId LIMIT 1";
+    $statement = getDB()->prepare($sql);
+    if(false === $statement){
+      echo printDBErrorMessage();
+      return null;
+    }
+    $data = [
+      ':orderId'=>$orderId
+    ];
+
+    $executed = $statement->execute($data);
+    if(false === $executed){
+      echo printDBErrorMessage();
+      return null;
+    }
+
+    if(0 === $statement->rowCount()){
+      return null;
+    }
+    $orderData['deliveryAddressData'] = $statement->fetch();
 
     $sql = "SELECT id,title,quantity,price,taxInPercent
     FROM order_products
