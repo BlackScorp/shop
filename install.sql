@@ -127,10 +127,10 @@ CREATE TABLE IF NOT EXISTS `order_adresses` (
   `street` text NOT NULL,
   `streetNumber` varchar(50) NOT NULL,
   `zipCode` varchar(50) NOT NULL,
-  `typ` enum('both','delivery','invoice') DEFAULT 'both',
+  `type` enum('both','delivery','invoice') DEFAULT 'both',
   PRIMARY KEY (`id`),
   KEY `FK_ORDER_ADRESS` (`order_id`),
-  KEY `typ` (`typ`),
+  KEY `type` (`type`),
   CONSTRAINT `FK_ORDER_ADRESS` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
