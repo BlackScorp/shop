@@ -78,9 +78,7 @@ if(strpos($route,'/login') !== false){
 
     if(0 === count($errors)){
       $_SESSION['userId'] = (int)$userData['id'];
-      moveCartProductsToAnotherUser($_COOKIE['userId'],(int)$userData['id']);
 
-      setcookie('userId',(int)$userData['id'],strtotime('+30 days'),$baseUrl);
       $redirectTarget = $baseUrl.'index.php';
       if(isset($_SESSION['redirectTarget'])){
         $redirectTarget = $_SESSION['redirectTarget'];
@@ -267,6 +265,10 @@ if(strpos($route,'/completeOrder') !== false){
     header("Location: ".$baseUrl."index.php/selectPayment");
     exit();
   }
+  if(!isset($_SESSION['deliveryAddressId'])){
+    header("Location: ".$baseUrl."index.php/checkout");
+    exit();
+  }
   $userId = getCurrentUserId();
   $cartItems =  getCartItemsForUserId($userId);
 
@@ -278,8 +280,9 @@ if(strpos($route,'/completeOrder') !== false){
     ];
   }
   call_user_func_array($functionName,  $parameter);
+  $deliveryAddressData  = getDeliveryAddressDataForUser($_SESSION['deliveryAddressId'],$userId);
 
-  if(createOrder($userId,$cartItems)){
+  if(createOrder($userId,$cartItems,$deliveryAddressData)){
     clearCartForUser($userId);
     require __DIR__.'/templates/thankyYouPage.php';
     exit();
@@ -305,6 +308,7 @@ if(!$orderData){
   echo "Daten wurden nicht gefunden";
   exit();
 }
+
 require_once __DIR__.'/templates/invoice.php';
 exit();
 }
