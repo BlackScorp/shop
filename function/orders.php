@@ -4,6 +4,8 @@ function createOrder(int $userId,array $cartItems,array $deliveryAddressData,str
 
     $sql ="INSERT INTO orders SET
       status = :status,
+      orderDate = :orderDate,
+      deliveryDate = :deliveryDate,
       userId = :userId
     ";
     $statement = getDB()->prepare($sql);
@@ -13,7 +15,9 @@ function createOrder(int $userId,array $cartItems,array $deliveryAddressData,str
     }
     $data = [
       ':status'=>$status,
-      ':userId' => $userId
+      ':userId' => $userId,
+      ':orderDate'=>date('Y-m-d'),
+      ':deliveryDate'=>'0000-00-00'
     ];
     $created = $statement->execute($data);
     if(false === $created){
@@ -83,7 +87,7 @@ function createOrder(int $userId,array $cartItems,array $deliveryAddressData,str
 
 function getOrderForUser(int $orderId,int $userId):?array{
 
-  $sql = "SELECT orderDate,status,userId,id
+  $sql = "SELECT orderDate,deliveryDate,status,userId,id
   FROM orders
   WHERE id=:orderId AND userId = :userId
   LIMIT 1
@@ -102,6 +106,14 @@ function getOrderForUser(int $orderId,int $userId):?array{
     }
 
     $orderData =$statement->fetch();
+    $orderDate = date_create($orderData['orderDate']);
+    $deliveryDateFormatted ='Noch nicht angegeben';
+    if($orderData['deliveryDate'] !== "0000-00-00"){
+      $deliveryDate = date_create($orderData['deliveryDate']);
+      $deliveryDateFormatted = date_format($deliveryDate,'d.m.Y');
+    }
+    $orderData['deliveryDateFormatted'] = $deliveryDateFormatted;
+    $orderData['orderDateFormatted'] = date_format($orderDate,'d.m.Y');
     $orderData['products'] = [];
     $orderData['deliveryAddressData'] = [];
     $sql ="SELECT recipient,streetNumber,city,street,zipCode,`type`

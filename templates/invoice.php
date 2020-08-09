@@ -1,3 +1,4 @@
+<?php include __DIR__.'/htmlHead.php'?>
 <div class="pdf-container">
 <section class="row" id="companyLogo">
 </section>
@@ -14,15 +15,30 @@
   </div>
 </section>
 <section class="row" id="invoiceDetails">
+
+  <div class="col-2 offset-2">
+    <strong>Kundennummer</strong>
+    <p><?= $userData ['customerNumber']?></p>
+  </div>
+  <div class="col-2">
+    <strong>Liefer- /Leistungsdatum</strong>
+    <p><?= $orderData ['deliveryDateFormatted']?></p>
+  </div>
+  <div class="col-2">
+    <strong>Rechnungsdatum</strong>
+    <p><?= $orderData ['orderDateFormatted']?></p>
+  </div>
 </section>
 <section class="row" id="invoideHeader">
 </section>
 <section id="products">
   <?php foreach($orderData['products'] as $order):?>
+    <div>
     <?=$order['title']?>
       <?=$order['quantity']?>
         <?=$order['price']?>
           <?=$order['taxInPercent']?>
+        </div>
   <?php  endforeach; ?>
 </section>
 <section class="row" id="sum">
@@ -33,3 +49,4 @@
 </section>
 
 </div>
+<?php require_once __DIR__.'/footer.php'?>
