@@ -94,7 +94,8 @@ INSERT INTO `user` (`id`, `username`, `password`) VALUES
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `orderDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `orderDate` date NOT NULL DEFAULT '',
+  `deliveryDate` date NOT NULL DEFAULT '',
   `status` enum('new','canceled','payed','sent','delivered') NOT NULL DEFAULT 'new',
   `userId` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
