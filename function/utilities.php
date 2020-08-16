@@ -16,3 +16,8 @@ function redirectIfNotLogged(string $sourceTarget){
     header("Location: ".BASE_URL."index.php/login");
     exit();
 }
+
+function convertToMoney(int $cent):string{
+  $money = $cent/100;
+  return number_format($money,2,","," ");
+}

@@ -304,6 +304,7 @@ echo "Rechnung nicht angegeben";
 $userId = getCurrentUserId();
 
 $orderData = getOrderForUser($invoiceId,$userId);
+$orderSum = getOrderSumForUser($invoiceId,$userId);
 $userData = getUserDataForId($userId);
 if(!$orderData){
   echo "Daten wurden nicht gefunden";

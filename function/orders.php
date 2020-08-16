@@ -84,7 +84,29 @@ function createOrder(int $userId,array $cartItems,array $deliveryAddressData,str
     }
     return $created;
 }
+function getOrderSumForUser(int $orderId,int $userId):?array{
+  $sql="SELECT SUM(price*quantity) AS sumNet,
+  CONVERT(SUM(price*quantity)*(1+taxInPercent/100), SIGNED INTEGER) AS sumBrut,
+  CONVERT((SUM(price*quantity)*(1+taxInPercent/100)) - ( SUM(price*quantity) ),SIGNED INTEGER) AS taxes
+  FROM order_products op
+  INNER JOIN orders o ON(op.orderId = o.id)
+  WHERE userId = :userId
+  AND orderId = :orderId";
 
+  $statement = getDB()->prepare($sql);
+  if(false === $statement){
+    echo printDBErrorMessage();
+    return null;
+  }
+  $statement->execute([
+    ':orderId'=>$orderId,
+    ':userId'=>$userId
+  ]);
+  if(0 === $statement->rowCount()){
+    return null;
+  }
+  return $statement->fetch();
+}
 function getOrderForUser(int $orderId,int $userId):?array{
 
   $sql = "SELECT orderDate,deliveryDate,status,userId,id

@@ -6,5 +6,5 @@
 <div><?= $cartItem['description']?></div>
 </div>
 <div class="col-2 text-right">
-  <span class="price"><?= number_format($cartItem['price']/100,2,","," ") ?> €</div>
+  <span class="price"><?= convertToMoney((int)$cartItem['price']) ?> €</div>
 </div>
