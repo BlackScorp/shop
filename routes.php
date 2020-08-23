@@ -290,6 +290,70 @@ if(strpos($route,'/completeOrder') !== false){
 
   //
 }
+if(strpos($route,'/register') !== false){
+  $username = "";
+  $email = "";
+  $emailRepeat = "";
+  $password ="";
+  $passwordRepeat ="";
+  $errors = [];
+
+
+  if(isPost()){
+     $username = filter_input(INPUT_POST,'username',FILTER_SANITIZE_SPECIAL_CHARS);
+     $password = filter_input(INPUT_POST,'password');
+     $passwordRepeat = filter_input(INPUT_POST,'passwordRepeat');
+     $email = filter_input(INPUT_POST,'email',FILTER_SANITIZE_EMAIL);
+     $emailRepeat = filter_input(INPUT_POST,'emailRepeat',FILTER_SANITIZE_EMAIL);
+
+     if(false === (bool)$username){
+       $errors[]="Benutzername ist leer";
+     }
+
+     if(false === (bool)$password){
+       $errors[]="Passwort ist leer";
+     }
+     if(true === (bool)$username){
+       if(mb_strlen($username) < 4){
+         $errors []="Benutzername ist zu kurz, mindestens 4 Zeichen";
+       }
+       if(mb_strlen($username) > 10){
+         $errors []="Benutzername ist zu lang, maximal 10 Zeichen";
+       }
+     }
+     if(true === (bool)$password){
+       if(mb_strlen($password) < 6){
+         $errors[]="Passwort ist zu kurz";
+       }
+     }
+     if($password !== $passwordRepeat){
+       $errors[]="Passwörter stimmen nicht überein";
+     }
+     if(false === (bool)$email){
+       $errors[]="Email ist leer";
+     }
+     if(true === (bool)$email){
+       if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+         $errors[]="Email ist nicht gültig";
+       }
+     }
+     if($email !== $emailRepeat){
+       $errors[]="Email adressen stimmen nicht überein";
+     }
+     $userData = getUserDataForUsername($username);
+     if(0 !== count($userData)){
+       $errors[]="Benutzername bereits exestiert";
+     }
+     $hasErrors = count($errors)> 0;
+     if(false === $hasErrors){
+       //
+     }
+  }
+  $hasErrors = count($errors)> 0;
+  require_once __DIR__.'/templates/register.php';
+  exit();
+}
+
 if(strpos($route,'/invoice') !== false){
 redirectIfNotLogged('/');
 $routeParts =  explode('/',$route);
