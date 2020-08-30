@@ -79,6 +79,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(191) NOT NULL DEFAULT '0',
   `password` varchar(191) NOT NULL DEFAULT '0',
+  `email` varchar(512) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;

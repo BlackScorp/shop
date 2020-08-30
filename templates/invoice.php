@@ -69,7 +69,7 @@ Wir  bedanken  uns  für  die  gute  Zusammenarbeit  und  stellen  Ihnen  verein
           <td><?=convertToMoney($order['price'] * $order['quantity'])?></td>
         </tr>
   <?php  endforeach; ?>
-</toby>
+</tbody>
   <tfoot>
     <tr>
       <td colspan="4">Summe Netto</td>
