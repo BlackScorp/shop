@@ -142,7 +142,8 @@ CREATE TABLE `user` (
   `id` int(11) UNSIGNED NOT NULL,
   `username` varchar(191) NOT NULL DEFAULT '0',
   `password` varchar(191) NOT NULL DEFAULT '0',
-  `email` varchar(512) NOT NULL DEFAULT '0'
+  `email` varchar(512) NOT NULL DEFAULT '0',
+  `activationKey` varchar(8) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -199,7 +200,9 @@ ALTER TABLE `products`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `activationKey` (`username`,`activationKey`) USING BTREE;
 
 --
 -- AUTO_INCREMENT für exportierte Tabellen
