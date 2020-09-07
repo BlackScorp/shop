@@ -16,6 +16,14 @@ function redirectIfNotLogged(string $sourceTarget){
     header("Location: ".BASE_URL."index.php/login");
     exit();
 }
+
+function getRandomHash(int $length):string{
+  $randomInt = random_int(0,time()); 
+  $hash = md5($randomInt); 
+  $start = random_int(0,strlen($hash)-$length);
+  $hashShort = substr($hash,$start,$length);
+  return $hashShort;
+}
 function flashMessage(?string $message = null){
   if(!isset($_SESSION['messages'])){
     $_SESSION['messages'] = [];
