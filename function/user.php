@@ -14,17 +14,22 @@ function createAccount(string $username,string $password,string $email):bool{
   $sql ="INSERT INTO user SET
   username=:username,
   password=:password,
-  email = :email";
+  email = :email,
+  activationKey = :activationKey";
 
   $statement = getDb()->prepare($sql);
   if(false === $statement){
     return false;
   }
-  $affectedRows = $statement->execute([
+  $activationKey = getRandomHash(8);
+   $statement->execute([
     ':username'=>$username,
     ':password'=>$password,
     ':email'=>$email,
+    ':activationKey'=>$activationKey
   ]);
+  $affectedRows = $statement->rowCount();
+
   return $affectedRows > 0;
 
 }
@@ -75,7 +80,7 @@ function emailExists(string $email):bool{
   return (bool)$statement->fetchColumn();
 }
 function getUserDataForUsername(string $username):array{
-  $sql ="SELECT id,password,CONCAT_WS('-','KD',SUBSTR(username,1,3),id) AS customerNumber
+  $sql ="SELECT id,password,CONCAT_WS('-','KD',SUBSTR(username,1,3),id) AS customerNumber,activationKey
   FROM user
   WHERE username=:username";
 
@@ -95,4 +100,21 @@ function getUserDataForUsername(string $username):array{
 
 function isLoggedIn():bool{
   return isset($_SESSION['userId']);
+}
+
+function activateAccount(string $username,string $activationKey):bool{
+    $sql ="UPDATE user
+    SET activationKey = NULL
+    WHERE username=:username
+    AND activationKey = :activationKey";
+    $statement = getDb()->prepare($sql);
+    if(false === $statement){
+      return false;
+    }
+    $statement->execute([
+      ':username'=>$username,
+      ':activationKey'=>$activationKey
+    ]);
+    $affectedRows = $statement->rowCount();
+    return $affectedRows > 0;
 }
