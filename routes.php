@@ -71,6 +71,11 @@ if(strpos($route,'/login') !== false){
     if((bool)$username && 0 === count($userData)){
       $errors[]="Benutzername exestiert nicht";
     }
+    if((bool)$username && 
+    isset($userData['activationKey']) && 
+    false === is_null($userData['activationKey'])){
+      $errors[]="Account wurde noch nicht aktiviert";
+    }
     if((bool)$password &&
     isset($userData['password']) &&
     false === password_verify($password,$userData['password'])
@@ -393,4 +398,23 @@ if(!$orderData){
 
 require_once __DIR__.'/templates/invoice.php';
 exit();
+}
+
+if(strpos($route,'/account/activate') !== false){
+  $routeParts = explode('/',$route);
+  if(count($routeParts) !== 5){
+    echo "Ungültige URL";
+    exit();
+  }
+  $username  = $routeParts[3];
+  $activationKey = $routeParts[4];
+
+  $activated = activateAccount($username,$activationKey);
+  if(false === $activated){
+    echo "Ungültiger Account";
+    exit();
+  }
+  flashMessage("Account wurde aktiviert");
+  header("Location: ".$baseUrl."index.php");
+  exit();
 }
