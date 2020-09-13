@@ -118,3 +118,20 @@ function activateAccount(string $username,string $activationKey):bool{
     $affectedRows = $statement->rowCount();
     return $affectedRows > 0;
 }
+
+function getActivationKeyByUsername(string $username):?string{
+  $sql="SELECT activationKey FROM user WHERE username=:username
+  LIMIT 1
+  ";
+  $statement = getDb()->prepare($sql);
+  if(false === $statement){
+    return null;
+  }
+  $statement->execute([
+    ':username'=>$username
+  ]);
+  if($statement->rowCount() === 0){
+    return null;
+  }
+  return $statement->fetchColumn();
+}

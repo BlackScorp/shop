@@ -1,6 +1,9 @@
 <?php
 $url = $_SERVER['REQUEST_URI'];
 
+$https = $_SERVER['REQUEST_SCHEME'] === 'https';
+
+
 $indexPHPPosition = strpos($url,'index.php');
 $baseUrl = $url;
 if(false !== $indexPHPPosition){
@@ -11,6 +14,7 @@ if(substr($baseUrl,-1) !== '/'){
   $baseUrl .='/';
 }
 define('BASE_URL',$baseUrl);
+$projectUrl =  $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$baseUrl;
 
 $route = null;
 
@@ -23,7 +27,7 @@ if(false !== $indexPHPPosition){
 
 $userId = getCurrentUserId();
 $countCartItems = countProductsInCart($userId);
-
+$isEmail = false;
 
 if(!$route){
   $products = getAllProducts();
@@ -365,8 +369,21 @@ if(strpos($route,'/register') !== false){
             $errors[]="Account konnte nicht angelegt werden, versuchen Sie es später erneut";
        }
        if($created){
-         flashMessage("Account wurde erstellt");
-         header("Location: ".$baseUrl."index.php");
+         $activationEmailUrl = $projectUrl.'index.php/activationMail/'.$username;
+
+         $message = new Swift_Message('Vielen dank für die Registrierung');
+         $message->setBody(file_get_contents($activationEmailUrl),'text/html');
+         $message->setTo([$email=>$username]);
+         $message->setFrom([MAIL_NOREPLY=>'Mein Shop']);
+         $send = sendMail($message);
+         if(!$send){
+           $errors[]="Account konnte nicht angelegt werden, versuchen Sie es später erneut";
+         }
+         if($send){
+          flashMessage("Account wurde erstellt");
+          header("Location: ".$baseUrl."index.php");
+         }
+      
        }
      }
   }
@@ -417,4 +434,28 @@ if(strpos($route,'/account/activate') !== false){
   flashMessage("Account wurde aktiviert");
   header("Location: ".$baseUrl."index.php");
   exit();
+}
+
+if(strpos($route,'/activationMail') !== false){
+  $routeParts = explode('/',$route);
+  if(count($routeParts) !== 3){
+    echo "Ungültige URL";
+    exit();
+  }
+  
+  $username  = $routeParts[2];
+  $activationKey = getActivationKeyByUsername($username);
+  if(null === $activationKey){
+    echo "Account ist aktiviert";
+    exit();
+  }
+ 
+
+
+  $isEmail = true;
+
+  $acitvationLink = $projectUrl.'index.php/account/activate/'.$username.'/'.$activationKey;
+  require_once __DIR__.'/templates/activationMail.php';
+  
+exit();
 }

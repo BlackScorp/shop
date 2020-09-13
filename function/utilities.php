@@ -41,3 +41,14 @@ function convertToMoney(int $cent):string{
   $money = $cent/100;
   return number_format($money,2,","," ");
 }
+
+function sendMail(Swift_Message $message):bool{
+
+
+  $transport = new Swift_SmtpTransport('smtp.gmail.com', 465,'ssl');
+  $transport->setUsername(SMTP_USERNAME);
+  $transport->setPassword(SMTP_PASSWORD);  
+
+  $mailer = new Swift_Mailer($transport);
+  return $mailer->send($message);
+}
