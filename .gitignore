@@ -1,4 +1,6 @@
 /config/paypal.php
+/config/mail.php
 TODO.md
 /.vscode
 /.idea
+/vendor
