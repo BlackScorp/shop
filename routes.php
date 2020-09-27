@@ -6,12 +6,15 @@ $https = $_SERVER['REQUEST_SCHEME'] === 'https';
 
 $indexPHPPosition = strpos($url,'index.php');
 $baseUrl = $url;
+logData('INFO','Starte Routing');
 if(false !== $indexPHPPosition){
   $baseUrl = substr($baseUrl,0,$indexPHPPosition);
+  logData('INFO','Es gibt eine index.php in URL');
 }
 
 if(substr($baseUrl,-1) !== '/'){
   $baseUrl .='/';
+  
 }
 define('BASE_URL',$baseUrl);
 $projectUrl =  $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$baseUrl;
@@ -30,9 +33,14 @@ $countCartItems = countProductsInCart($userId);
 $isEmail = false;
 
 if(!$route){
+ 
   $products = getAllProducts();
   $flashMessages = flashMessage();
   $hasFlashMessages = count($flashMessages)> 0;
+  logData('INFO','Die Startseite wurde aufgerufen',[
+    'aktuelleUserId'=>$userId,
+    'produktListe'=>$products
+  ]);
   require __DIR__.'/templates/main.php';
   exit();
 }
@@ -438,7 +446,7 @@ if(strpos($route,'/account/activate') !== false){
 
 if(strpos($route,'/activationMail') !== false){
   $routeParts = explode('/',$route);
-  if(count($routeParts) !== 3){
+  if(count($routeParts) !== 4){
     echo "Ungültige URL";
     exit();
   }
@@ -453,8 +461,10 @@ if(strpos($route,'/activationMail') !== false){
 
 
   $isEmail = true;
-
+  $registrationDate = date('d.M.Y');
   $acitvationLink = $projectUrl.'index.php/account/activate/'.$username.'/'.$activationKey;
+  $currentYear = date('Y');
+
   require_once __DIR__.'/templates/activationMail.php';
   
 exit();
