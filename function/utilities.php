@@ -52,3 +52,22 @@ function sendMail(Swift_Message $message):bool{
   $mailer = new Swift_Mailer($transport);
   return $mailer->send($message);
 }
+
+function logData(string $level,string $message,?array $data = null){
+
+  $today = date('Y-m-d');
+  $now = date('Y-m-d H:i:s');
+  $logFile = LOG_DIR.'/log-'.$today.'.log';
+
+  $logData = '['.$now.'-'.$level.'] '.$message."\n";
+
+  if($data){
+    $dataString = print_r($data,true)."\n";
+    $logData .= $dataString;
+  }
+  $logData .=str_repeat('*',100)."\n";
+
+
+  file_put_contents($logFile,$logData,FILE_APPEND);
+
+}
