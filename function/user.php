@@ -8,26 +8,43 @@ function getCurrentUserId():?int{
   }
   return $userId;
 }
+function getAccountsTotal():int{
+  $sql ="SELECT COUNT(id) FROM user";
+  $statement = getDb()->query($sql);
+  if(false === $statement){
+    return 0;
+  }
+  return (int)$statement->fetchColumn();
+}
 function createAccount(string $username,string $password,string $email):bool{
   $password = password_hash($password,PASSWORD_DEFAULT);
+
+  $group = 'USER';
+  if(getAccountsTotal() === 0){
+    $group = 'ADMIN';
+  }
 
   $sql ="INSERT INTO user SET
   username=:username,
   password=:password,
   email = :email,
-  activationKey = :activationKey";
+  activationKey = :activationKey,
+  userRights = :group";
 
   $statement = getDb()->prepare($sql);
   if(false === $statement){
     return false;
   }
   $activationKey = getRandomHash(8);
-   $statement->execute([
+  $data = [
     ':username'=>$username,
     ':password'=>$password,
     ':email'=>$email,
-    ':activationKey'=>$activationKey
-  ]);
+    ':activationKey'=>$activationKey,
+    ':group'=>$group
+  ];
+   $statement->execute( $data );
+
   $affectedRows = $statement->rowCount();
 
   return $affectedRows > 0;
