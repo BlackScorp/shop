@@ -6,4 +6,5 @@ ini_set('display_errors','On');
 define('CONFIG_DIR',__DIR__.'/config');
 define('LOG_DIR',__DIR__.'/logs');
 define('ASSETS_DIR',__DIR__.'/assets');
+define('TEMPLATES_DIR',__DIR__.'/templates');
 require __DIR__.'/includes.php';
