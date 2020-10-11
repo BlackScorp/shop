@@ -1,5 +1,5 @@
 <?php
-
+$isAdmin = isAdmin();
 $products = getAllProducts();
 $flashMessages = flashMessage();
 $hasFlashMessages = count($flashMessages)> 0;
