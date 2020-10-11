@@ -27,3 +27,7 @@
 .pdf-container section#products table tfoot .total *{
   font-weight: bold;
 }
+
+#products #newProduct a{
+  font-size: 5em;
+}
