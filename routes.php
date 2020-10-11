@@ -99,6 +99,10 @@ if(strpos($route,'/activationMail') !== false){
   require_once __DIR__.'/actions/activationMail.php';
   exit();
 }
+if(strpos($route,'/product/new') !== false){
+  require_once __DIR__.'/actions/product.new.php';
+  exit();
+}
 if(strpos($route,'/product') !== false){
   require_once __DIR__.'/actions/product.php';
   exit();
