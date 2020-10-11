@@ -8,11 +8,11 @@ function getCurrentUserId():?int{
   }
   return $userId;
 }
-function getAccountsTotal():int{
+function getAccountsTotal():?int{
   $sql ="SELECT COUNT(id) FROM user";
   $statement = getDb()->query($sql);
   if(false === $statement){
-    return 0;
+    return null;
   }
   return (int)$statement->fetchColumn();
 }
@@ -97,7 +97,7 @@ function emailExists(string $email):bool{
   return (bool)$statement->fetchColumn();
 }
 function getUserDataForUsername(string $username):array{
-  $sql ="SELECT id,password,CONCAT_WS('-','KD',SUBSTR(username,1,3),id) AS customerNumber,activationKey
+  $sql ="SELECT id,password,CONCAT_WS('-','KD',SUBSTR(username,1,3),id) AS customerNumber,activationKey,userRights
   FROM user
   WHERE username=:username";
 
@@ -151,4 +151,8 @@ function getActivationKeyByUsername(string $username):?string{
     return null;
   }
   return $statement->fetchColumn();
+}
+
+function isAdmin():bool{
+  return isset($_SESSION['userRights']) &&  $_SESSION['userRights'] === 'ADMIN';
 }
