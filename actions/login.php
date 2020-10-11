@@ -34,7 +34,7 @@ if($isPost){
 
   if(0 === count($errors)){
     $_SESSION['userId'] = (int)$userData['id'];
-
+    $_SESSION['userRights'] = $userData['userRights'];
     $redirectTarget = $baseUrl.'index.php';
     if(isset($_SESSION['redirectTarget'])){
       $redirectTarget = $_SESSION['redirectTarget'];
