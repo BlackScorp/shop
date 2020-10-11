@@ -6,6 +6,7 @@
   <meta charset="utf-8">
   <?php if(false === $isEmail):?>
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/fontawesome.min.css">
   <link rel="stylesheet" href="assets/css/styles.css">
   <?php endif;?>
 
