@@ -73,16 +73,11 @@ CREATE TABLE IF NOT EXISTS `products` (
   `title` varchar(191) CHARACTER SET utf8 NOT NULL,
   `description` text CHARACTER SET utf8 NOT NULL,
   `price` int(11) NOT NULL DEFAULT 0,
+  `status` enum('DRAFT','LIVE') NOT NULL DEFAULT 'DRAFT',
   `slug` varchar(140) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `products` (`id`, `title`, `description`, `price`, `slug`) VALUES
-(1, 'Produkt 1', 'Tolles Produkt', 166, 'produkt-1'),
-(2, 'Produkt 2', 'Anderes Produkt', 1337, 'produkt-2'),
-(3, 'Produkt 3', 'Noch mehr Produkte', 42, 'produkt-3'),
-(4, 'Produkt 4', 'Alle guten Dinge sind 4', 2020, 'produkt-4');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
@@ -96,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   KEY `activationKey` (`username`,`activationKey`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 ALTER TABLE `cart`
