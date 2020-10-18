@@ -2,7 +2,8 @@
 
 function getAllProducts(){
   $sql ="SELECT id,title,description,price,slug
-  FROM products";
+  FROM products
+  WHERE status = 'LIVE'";
 
   $result = getDB()->query($sql);
   if(!$result){
@@ -32,4 +33,27 @@ function getProductBySlug(string $slug):?array{
     return null;
   }
   return $statement->fetch();
+}
+
+function createProduct(string $productName,string $slug,string $description,int $price):bool{
+    $sql="INSERT INTO products SET 
+    title = :productName,
+    slug = :slug,
+    description = :description,
+    price = :price
+    ";
+      $statement = getDB()->prepare($sql);
+      if(false === $statement){
+        return false;
+      }
+      $statement->execute(
+        [
+          ':productName' => $productName,
+          ':slug'=>$slug,
+          ':description'=>$description,
+          ':price'=>$price,
+        ]
+      ); 
+      $lastId = getDB()->lastInsertId();
+      return $lastId > 0;
 }
