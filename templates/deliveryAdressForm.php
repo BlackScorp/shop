@@ -4,13 +4,7 @@
       Neue Adresse eintragen
     </div>
     <div class="card-body">
-      <?php if($hasErrors):?>
-        <ul class="alert alert-danger">
-          <?php foreach($errors as $errorMessage):?>
-            <li><?= $errorMessage ?></li>
-          <?php endforeach?>
-        </ul>
-      <?php endif?>
+    <?php require_once __DIR__.'/errorMessages.php'?>
       <div class="form-group">
         <label for="recipient">Empfänger</label>
         <input name="recipient" value="<?= escape($recipient) ?>"  class="form-control<?= $recipientIsValid?'':' is-invalid'?>" id="recipient">
