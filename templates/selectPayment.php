@@ -1,13 +1,7 @@
 <?php require_once __DIR__.'/header.php'?>
 
 <section class="container" id="selectPaymentMethod">
-  <?php if($hasErrors):?>
-    <ul class="alert alert-danger">
-      <?php foreach($errors as $errorMessage):?>
-        <li><?= $errorMessage ?></li>
-      <?php endforeach?>
-    </ul>
-  <?php endif?>
+<?php require_once __DIR__.'/errorMessages.php'?>
   <form method="POST" action="index.php/selectPayment">
     <?php foreach($avaliablePaymentMethods as $value => $text):?>
           <div class="form-check">
