@@ -14,7 +14,7 @@
     </div>
   <?php endif;?>
     <?php foreach($products as $product):?>
-      <div class="col">
+      <div class="col-3">
         <?php include 'card.php'?>
       </div>
     <?php endforeach;?>
