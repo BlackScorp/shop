@@ -3,7 +3,7 @@
     <form action="index.php/product/new" method="POST">
     <div class="card">
         <div class="card-header">
-            Neue produkt erstellen
+            Neues Produkt erstellen
 </div>
 <div class="card-body">
 <?php require_once __DIR__.'/flashMessage.php' ?>
