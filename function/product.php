@@ -1,9 +1,11 @@
 <?php
 
 function getAllProducts(){
-  $sql ="SELECT id,title,description,price,slug
-  FROM products
-  WHERE status = 'LIVE'";
+  $sql ="SELECT id,title,description,price,slug,status
+  FROM products";
+  if(false === isAdmin()){
+    $sql .= " WHERE status = 'LIVE'";
+  }
 
   $result = getDB()->query($sql);
   if(!$result){
@@ -17,7 +19,7 @@ function getAllProducts(){
 }
 
 function getProductBySlug(string $slug):?array{
-  $sql ="SELECT id,title,description,price,slug 
+  $sql ="SELECT id,title,description,price,slug,status
   FROM products
   WHERE slug=:slug
   LIMIT 1
@@ -34,7 +36,30 @@ function getProductBySlug(string $slug):?array{
   }
   return $statement->fetch();
 }
-
+function editProduct(int $id, string $productName,string $slug,string $description,int $price):bool{
+  $sql="UPDATE products SET 
+  title = :productName,
+  slug = :slug,
+  description = :description,
+  price = :price
+  WHERE id= :id
+  ";
+    $statement = getDB()->prepare($sql);
+    if(false === $statement){
+      return false;
+    }
+    $statement->execute(
+      [
+        ':id'=>$id,
+        ':productName' => $productName,
+        ':slug'=>$slug,
+        ':description'=>$description,
+        ':price'=>$price,
+      ]
+    ); 
+    $rowCount = $statement->rowCount();
+    return $rowCount > 0;
+}
 function createProduct(string $productName,string $slug,string $description,int $price):bool{
     $sql="INSERT INTO products SET 
     title = :productName,
