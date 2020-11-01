@@ -6,3 +6,4 @@ TODO.md
 /.idea
 /vendor
 /logs/log-*
+/storage/security/key_*
