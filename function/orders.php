@@ -107,22 +107,29 @@ function getOrderSumForUser(int $orderId,int $userId):?array{
   }
   return $statement->fetch();
 }
-function getOrderForUser(int $orderId,int $userId):?array{
+function getOrderForUser(int $orderId,?int $userId = null):?array{
 
   $sql = "SELECT orderDate,deliveryDate,status,userId,id
   FROM orders
-  WHERE id=:orderId AND userId = :userId
-  LIMIT 1
-  ";
+  WHERE id=:orderId ";
+  $data = [
+    ':orderId'=>$orderId
+  ];
+  
+  if($userId){
+    $data[':userId']=$userId;
+    $sql .= "AND userId = :userId";
+  }
+ 
+
+  $sql .= " LIMIT 1";
+  
   $statement = getDB()->prepare($sql);
   if(false === $statement){
     echo printDBErrorMessage();
     return null;
   }
-    $statement->execute([
-      ':orderId'=>$orderId,
-      ':userId'=>$userId
-    ]);
+    $statement->execute($data);
     if(0 === $statement->rowCount()){
       return null;
     }
