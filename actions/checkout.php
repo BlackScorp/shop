@@ -13,4 +13,4 @@ redirectIfNotLogged('/checkout');
   $errors = [];
   $hasErrors = count($errors) >0;
   $deliveryAddresses = getDeliveryAddressesForUser($userId);
-  require TEMPLATE_DIR.'/selectDeliveryAddress.php';
+  require TEMPLATES_DIR.'/selectDeliveryAddress.php';
