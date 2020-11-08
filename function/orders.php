@@ -25,7 +25,7 @@ function createOrder(int $userId,array $cartItems,array $deliveryAddressData,str
       return false;
     }
     $orderId = getDB()->lastInsertId();
-
+    invoiceId($orderId);
     $sql ="INSERT INTO order_adresses SET
     order_id = :orderId,
     recipient = :recipient,
@@ -84,6 +84,14 @@ function createOrder(int $userId,array $cartItems,array $deliveryAddressData,str
     }
     return $created;
 }
+function invoiceId(?int $invoiceId = null){
+  static $id = null;
+  if(!$invoiceId){
+    return $id;
+  }
+  $id = $invoiceId;
+}
+
 function getOrderSumForUser(int $orderId,int $userId):?array{
   $sql="SELECT SUM(price*quantity) AS sumNet,
   CONVERT(SUM(price*quantity)*(1+taxInPercent/100), SIGNED INTEGER) AS sumBrut,
