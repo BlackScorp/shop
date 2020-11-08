@@ -7,7 +7,51 @@ function isPost():bool{
 function escape(string $value):string{
   return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
+function getSecurityKey():string{
+  $fileKey = getRandomHash(16);
+  $fileName = 'key_'. $fileKey.'.txt';
+  $key = getRandomHash(18);
+  $securityKeyPath = STORAGE_DIR.'/security/'.$fileName;
+  file_put_contents($securityKeyPath,$key);
+  return $fileKey.'.'.$key;
+}
+function deleteSecurityKey(string $keyNamen):bool{
+  if(false === strpos($keyNamen,'.')){
+    return false;
+  }
+  $keyParts = explode('.',$keyNamen);
+  $fileName = 'key_'.$keyParts[0].'.txt';
+  $securityKeyPath = STORAGE_DIR.'/security/'.$fileName;
+  if(is_file($securityKeyPath)){
+    return unlink($securityKeyPath);
+  }
+  return false;
+}
+function createPdfFromUrl(string $srcUrl,string $targetFile):bool{
+  $securityKey = getSecurityKey();
+  $publicUrl = $srcUrl.'/'.$securityKey;
+  $bin = '/usr/bin/wkhtmltopdf';
 
+  if(strtoupper(substr(PHP_OS,0,3)) === 'WIN'){
+    $bin = realpath(BIN_DIR.'\wkhtmltopdf.exe');
+  }
+  if(false === is_file($bin) && false === is_executable($bin)){
+    deleteSecurityKey($securityKey);
+    logData('ERROR','PDF Kann nicht erzeugt werden weil Datei nicht exestiert oder nicht ausführtbar ist',[$bin]);
+    return false;
+  }
+  $command = $bin." ".$publicUrl." ".$targetFile;
+  $result = shell_exec($command);
+  logData('INFO','Ergebnis aus der Generierung '.$result,['Command'=>$command]);
+
+  deleteSecurityKey($securityKey);
+
+  if(is_file($targetFile)){
+    return true;
+  }
+  logData('ERROR','Erzeugte PDF konnte nicht gefunden werden');
+  return false;
+}
 function redirectIfNotLogged(string $sourceTarget){
   if(isLoggedIn()){
     return;
