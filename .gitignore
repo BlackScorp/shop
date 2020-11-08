@@ -7,3 +7,4 @@ TODO.md
 /vendor
 /logs/log-*
 /storage/security/key_*
+/storage/invoices/invoice-*
