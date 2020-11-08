@@ -24,6 +24,9 @@ redirectIfNotLogged('/checkout');
 
   if(createOrder($userId,$cartItems,$deliveryAddressData)){
     clearCartForUser($userId);
+    $invoiceId = invoiceId();
+    $invoiceUrl = $projectUrl.'index.php/invoice/'.$invoiceId;
+    createPdfFromUrl($invoiceUrl,STORAGE_DIR.'/invoices/invoice-'.$invoiceId.'.pdf');
     require TEMPLATES_DIR.'/thankyYouPage.php';
     exit();
   }
