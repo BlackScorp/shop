@@ -8,3 +8,5 @@ TODO.md
 /logs/log-*
 /storage/security/key_*
 /storage/invoices/invoice-*
+/bin/*.exe
+/bin/*.dll
