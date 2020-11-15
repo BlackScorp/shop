@@ -55,7 +55,7 @@ function getUserDataForId(?int $userId):array{
     $userId = getCurrentUserId();
   }
 
-  $sql ="SELECT id,password,CONCAT_WS('-','KD',SUBSTR(username,1,3),id) AS customerNumber
+  $sql ="SELECT id,username,email,password,CONCAT_WS('-','KD',SUBSTR(username,1,3),id) AS customerNumber
   FROM user
   WHERE id=:id";
 
