@@ -24,9 +24,8 @@ $route = null;
 if(false !== $indexPHPPosition){
   $route = substr($url,$indexPHPPosition);
   $route = str_replace('index.php','',$route);
-
 }
-
+$route = str_replace('?'.$_SERVER['QUERY_STRING'],'',$route);
 
 $userId = getCurrentUserId();
 $countCartItems = countProductsInCart($userId);
