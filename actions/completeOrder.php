@@ -22,13 +22,35 @@ redirectIfNotLogged('/checkout');
   call_user_func_array($functionName,  $parameter);
   $deliveryAddressData  = getDeliveryAddressDataForUser($_SESSION['deliveryAddressId'],$userId);
 
+
   if(createOrder($userId,$cartItems,$deliveryAddressData)){
     clearCartForUser($userId);
     $invoiceId = invoiceId();
     $invoiceUrl = $projectUrl.'index.php/invoice/'.$invoiceId;
-    createPdfFromUrl($invoiceUrl,STORAGE_DIR.'/invoices/invoice-'.$invoiceId.'.pdf');
-    require TEMPLATES_DIR.'/thankyYouPage.php';
-    exit();
+    $pdfPath = STORAGE_DIR.'/invoices/invoice-'.$invoiceId.'.pdf';
+    $created = createPdfFromUrl($invoiceUrl,$pdfPath);
+    $userData= getUserDataForId(  $userId );
+    if($created){
+      $message = new Swift_Message('Bestellung erfolgreich');
+      $body = <<< TEXT
+      Vielen Dank für Ihre Bestellung\n
+      Im Anhang befindet sich die Rechnung\n
+      TEXT;
+      
+      $message->setBody($body,'plain/text');
+      $message->attach(Swift_Attachment::fromPath($pdfPath));
+      $message->setTo($userData['email']);
+      $message->setFrom([MAIL_NOREPLY=>'Mein Shop']);
+      $send = sendMail($message);
+      if($send){
+        unset($_SESSION['paymentMethod']);
+        unset($_SESSION['deliveryAddressId']);
+        require TEMPLATES_DIR.'/thankyYouPage.php';
+        exit();
+      }
+    }
+
   }
 
-  //
+  require TEMPLATES_DIR.'/errorPage/CompleteOrder.php';
+  exit();
