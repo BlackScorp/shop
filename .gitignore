@@ -10,3 +10,5 @@ TODO.md
 /storage/invoices/invoice-*
 /bin/*.exe
 /bin/*.dll
+/storage/productPictures/*/*
+!/storage/productPictures/keep.me
