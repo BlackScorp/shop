@@ -1,6 +1,6 @@
 <?php require_once __DIR__.'/header.php'?>
 <section id="newProduct" class="container"> 
-    <form action="index.php/product/edit/<?=$slug ?>" method="POST">
+    <form action="index.php/product/edit/<?=$slug ?>" method="POST" enctype="multipart/form-data">
     <div class="card">
         <div class="card-header">
           Produkt bearbeiten
@@ -23,6 +23,10 @@
     <div class="form-group">
         <label for="price">Price</label>
         <input type="text" value="<?=escape($price)?>" name="price" id="price" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="picture">Images</label>
+        <input type="file" name="picture[]" id="picture" class="form-control-file">
     </div>
 </div>
 <div class="card-footer">
