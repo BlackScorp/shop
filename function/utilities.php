@@ -118,3 +118,32 @@ function logData(string $level,string $message,?array $data = null){
   file_put_contents($logFile,$logData,FILE_APPEND);
 
 }
+
+function normalizeFiles(array $files):array{
+  $result = [];
+
+  foreach($files as $keyName => $values){
+
+    foreach($values as $index => $value){
+      $result[$index][$keyName] = $value;
+    }
+
+  }  
+  $typeToExtensionMap = [
+    'image/jpeg'=>'jpg',
+    'image/png'=>'png'
+  ];
+  $finfo = finfo_open(FILEINFO_MIME_TYPE);
+  foreach($result as $index=> $file){
+    $tempPath = $file['tmp_name'];
+    $type = finfo_file($finfo,$tempPath);
+    $result[$index]['type'] = $type;
+    $result[$index]['size']  = filesize($tempPath);
+      if(isset($typeToExtensionMap[$type])){
+        $result[$index]['extension']  = $typeToExtensionMap[$type];
+      }
+
+  }
+ 
+  return $result;
+}
