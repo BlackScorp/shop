@@ -39,7 +39,10 @@ if(isPost()){
     $slug =filter_input(INPUT_POST,'slug',FILTER_SANITIZE_SPECIAL_CHARS);
     $description =filter_input(INPUT_POST,'description',FILTER_SANITIZE_SPECIAL_CHARS);
     $price =(int)filter_input(INPUT_POST,'price');
-    
+
+    $pictures = $_FILES['picture'];
+    $pictures = normalizeFiles($pictures);
+   
     if(false === (bool)$productName){
         $errors[]="Bitte Produkt Namen angeben";
     }
@@ -55,6 +58,18 @@ if(isPost()){
             $errors[]= "Slug ist bereits vorhanden";
         }
     }
+    $hasPictures = count($pictures)>0;
+    if($hasPictures){
+        $allowedTypes = ['image/jpeg','image/png'];
+  
+        foreach($pictures as $number=> $picture){
+           
+            $type =  $picture['type'];
+            if(!in_array($type,$allowedTypes)){
+                $errors[]="Das Bild nr:".$number." hat den typen ".$type." und dieser ist nicht erlaubt";
+            }
+        }
+    }
     if(in_array($slug,$blockedSlugs)) {
         $errors[]="Slug ist reserviert, bitte einen anderen benutzen";
     }
@@ -67,6 +82,9 @@ if(isPost()){
     $hasErrors = count($errors) >0;
     if(false === $hasErrors){
         $created = editProduct($id,$productName,$slug,$description,$price);
+        if($hasPictures){
+            uploadProductPictures($slug,$pictures);
+        }
         if(false === $created){
             $errors[]="Produkt konnte nicht bearbeitet werden";
             $hasErrors = true;
