@@ -82,3 +82,14 @@ function createProduct(string $productName,string $slug,string $description,int 
       $lastId = getDB()->lastInsertId();
       return $lastId > 0;
 }
+
+function uploadProductPictures(string $slug,array $picutres){
+  $picutrePath = STORAGE_DIR.'/productPictures/'.$slug.'/';
+  if(!is_dir($picutrePath)){
+    mkdir($picutrePath,0777,true);
+  }
+  foreach($picutres as $picutre){
+    copy($picutre['tmp_name'],$picutrePath.'1.'.$picutre['extension']);
+    unlink($picutre['tmp_name']);
+  }
+}
