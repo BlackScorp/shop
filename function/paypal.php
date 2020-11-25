@@ -166,7 +166,7 @@ function getPayPalOrderId():?string{
   return isset($_SESSION['paypalOrderId'])?$_SESSION['paypalOrderId']:null;
 }
 function setPayPalRequestId(string $paypalRequestId):void{
-  $_SESSION['paypalRequestId'] = $payPalRequestId;
+  $_SESSION['paypalRequestId'] =$paypalRequestId;
 }
 function getPayPalRequestId():?string{
   return isset($_SESSION['paypalRequestId'])?$_SESSION['paypalRequestId']:null;
