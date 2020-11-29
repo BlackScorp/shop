@@ -33,6 +33,11 @@ $blockedSlugs = [
     'details',
     'edit'
 ];
+$prorductImages = [];
+$picutrePath = STORAGE_DIR.'/productPictures/'.$slug.'/';
+foreach(glob($picutrePath.'*') as $filePath){
+    $prorductImages[]=basename($filePath);
+}
 
 if(isPost()){
     $productName = filter_input(INPUT_POST,'name',FILTER_SANITIZE_SPECIAL_CHARS);
@@ -82,14 +87,17 @@ if(isPost()){
     $hasErrors = count($errors) >0;
     if(false === $hasErrors){
         $created = editProduct($id,$productName,$slug,$description,$price);
+        $imageUploadSuccessful = false;
         if($hasPictures){
-            uploadProductPictures($slug,$pictures);
+            $imageUploadSuccessful = uploadProductPictures($slug,$pictures);
         }
         if(false === $created){
             $errors[]="Produkt konnte nicht bearbeitet werden";
             $hasErrors = true;
         }
-        if(true === $created){
+        if(true === $created ||
+        ($hasPictures && $imageUploadSuccessful)
+        ){
            flashMessage('Produkt wurde bearbeitet');
            header("Location: ".BASE_URL."index.php/product/edit/".$slug);
         }
