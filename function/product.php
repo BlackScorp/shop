@@ -58,7 +58,7 @@ function editProduct(int $id, string $productName,string $slug,string $descripti
       ]
     ); 
     $rowCount = $statement->rowCount();
-    return $rowCount > 0;
+    return $rowCount >= 0;
 }
 function createProduct(string $productName,string $slug,string $description,int $price):bool{
     $sql="INSERT INTO products SET 
@@ -83,13 +83,27 @@ function createProduct(string $productName,string $slug,string $description,int 
       return $lastId > 0;
 }
 
-function uploadProductPictures(string $slug,array $picutres){
+function uploadProductPictures(string $slug,array $picutres):bool{
   $picutrePath = STORAGE_DIR.'/productPictures/'.$slug.'/';
   if(!is_dir($picutrePath)){
     mkdir($picutrePath,0777,true);
   }
+
+  $fileNames = glob($picutrePath.'*');
+  $fileName = count($fileNames)+1;
+
+  $filesToCheck= [];
   foreach($picutres as $picutre){
-    copy($picutre['tmp_name'],$picutrePath.'1.'.$picutre['extension']);
+    $filesToCheck[]=$picutrePath.$fileName.'.'.$picutre['extension'];
+    copy($picutre['tmp_name'],$picutrePath.$fileName.'.'.$picutre['extension']);
     unlink($picutre['tmp_name']);
   }
+  $result  = true;
+  foreach($filesToCheck as $file){
+    if(false === is_file($file)){
+      $result = false;
+    break;
+    }
+  }
+  return $result;
 }
