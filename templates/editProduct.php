@@ -28,6 +28,15 @@
         <label for="picture">Images</label>
         <input type="file" name="picture[]" id="picture" class="form-control-file">
     </div>
+    <div class="form-group">
+        <div class="row">
+        <?php foreach($prorductImages as $image):?>
+            <div class="col-3">
+                <img src="index.php/product/image/<?=escape($slug)?>/<?=$image?>" class="img-thumbnail">
+            </div>
+        <?php endforeach;?>
+        </div>
+    </div>
 </div>
 <div class="card-footer">
     <a href="index.php" class="btn btn-danger">Abbrechen</a>
