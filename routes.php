@@ -1,6 +1,7 @@
 <?php
-$url = $_SERVER['REQUEST_URI'];
 
+$urlParts = parse_url($_SERVER['REQUEST_URI']);
+$url = $urlParts['path'];
 $https = $_SERVER['REQUEST_SCHEME'] === 'https';
 
 
@@ -25,7 +26,8 @@ if(false !== $indexPHPPosition){
   $route = substr($url,$indexPHPPosition);
   $route = str_replace('index.php','',$route);
 }
-$route = str_replace('?'.$_SERVER['QUERY_STRING'],'',$route);
+
+
 
 $userId = getCurrentUserId();
 $countCartItems = countProductsInCart($userId);
