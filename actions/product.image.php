@@ -12,7 +12,8 @@ $fileName = $routeParts[4];
 $sourceFilePath = STORAGE_DIR.'/productPictures/'.$slug.'/'.$fileName;
 if(false === is_file($sourceFilePath)){
    http_response_code(404);
-   exit();
+   $sourceFilePath = STORAGE_DIR.'/productPictures/notfound.jpg';
+ 
 }
 $finfo = finfo_open(FILEINFO_MIME_TYPE);
 $mimetype = finfo_file($finfo,$sourceFilePath);
