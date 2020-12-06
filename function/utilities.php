@@ -89,7 +89,7 @@ function convertToMoney(int $cent):string{
 function sendMail(Swift_Message $message):bool{
 
 
-  $transport = new Swift_SmtpTransport('smtp.gmail.com', 465,'ssl');
+  $transport = new Swift_SmtpTransport(SMTP_HOST ,SMPT_PORT ,SMTP_SSL);
   $transport->setUsername(SMTP_USERNAME);
   $transport->setPassword(SMTP_PASSWORD);  
 
