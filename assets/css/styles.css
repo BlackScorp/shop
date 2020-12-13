@@ -37,3 +37,24 @@
 .card.DRAFT{
   border:1px solid red;
 }
+.is-dragover .drop-zone{
+  background: #cacaca;
+}
+form.droppable .advanced{
+  display: none;
+}
+form.can-drop .advanced{
+  display: inline;
+}
+
+.drop-zone label{
+  top:30%;
+  position: relative;
+  cursor: pointer;
+}
+.drop-zone{
+  min-height: 300px;
+}
+.drop-zone input[type="file"]{
+  display: none;
+}

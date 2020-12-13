@@ -1,6 +1,6 @@
 <?php require_once __DIR__.'/header.php'?>
 <section id="newProduct" class="container"> 
-    <form action="index.php/product/edit/<?=$slug ?>" method="POST" enctype="multipart/form-data">
+    <form action="index.php/product/edit/<?=$slug ?>" class="droppable" method="POST" enctype="multipart/form-data">
     <div class="card">
         <div class="card-header">
           Produkt bearbeiten
@@ -25,8 +25,11 @@
         <input type="text" value="<?=escape($price)?>" name="price" id="price" class="form-control">
     </div>
     <div class="form-group">
-        <label for="picture">Images</label>
+        <div class="drop-zone form-control text-center">
+        <label for="picture">Wähle bild aus<span class="advanced"> oder drage und drope hier rein</span></label>
         <input type="file" name="picture[]" id="picture" class="form-control-file">
+        </div>
+    
     </div>
     <div class="form-group">
         <div class="row">
