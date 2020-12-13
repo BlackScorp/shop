@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="no-js">
 <head>
   <title>Vitalij Fotography</title>
   <base href="<?= $baseUrl ?>">
