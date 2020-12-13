@@ -97,6 +97,7 @@ function uploadProductPictures(string $slug,array $picutres):bool{
     $filesToCheck[]=$picutrePath.$fileName.'.'.$picutre['extension'];
     copy($picutre['tmp_name'],$picutrePath.$fileName.'.'.$picutre['extension']);
     unlink($picutre['tmp_name']);
+    $fileName++;
   }
   $result  = true;
   foreach($filesToCheck as $file){
