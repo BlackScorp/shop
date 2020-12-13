@@ -7,7 +7,9 @@
     <div class="card-body">
     <div class="row">
         <div class="col-4">
-        <img src="https://placekitten.com/286/180" class="card-img-top" alt="produkt">
+        <img src="index.php/product/image/<?= $product['slug']?>/1.jpg" class="card-img-top" alt="produkt">
+  
+
         </div>
         <div class="col-8">
         <div >Preis: <b><?= convertToMoney($product['price']) ?></b></div>

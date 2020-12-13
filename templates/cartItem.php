@@ -1,5 +1,6 @@
 <div class="col-3">
-<img class="productPicture" src="https://placekitten.com/286/180">
+<img src="index.php/product/image/<?= $product['slug']?>/1.jpg" class="productPicture" alt="produkt">
+
 </div>
 <div class="col-7">
 <div><?= $cartItem['title']?></div>
