@@ -8,6 +8,12 @@
 <div class="card-body">
 <?php require_once __DIR__.'/flashMessage.php' ?>
 <?php require_once __DIR__.'/errorMessages.php'?>
+<div class="alert alert-danger" id="uploadFailed"  style="display: none;" role="alert">
+    <p>Upload fehlgeschlagen</p>
+</div>
+<div class="alert alert-success" id="uploadSuccess" style="display: none;" role="alert">
+    <p>Upload erfolgreich</p>
+</div>
     <div class="form-group">
         <label for="name">Produkt Name</label>
         <input type="text" value="<?=escape($productName)?>" name="name" id="name" class="form-control">
