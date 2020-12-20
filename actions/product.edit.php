@@ -85,22 +85,38 @@ if(isPost()){
         $errors[] = "Bitte preis angeben";
     }
     $hasErrors = count($errors) >0;
+    $updateSuccess = false;
     if(false === $hasErrors){
         $created = editProduct($id,$productName,$slug,$description,$price);
         $imageUploadSuccessful = false;
         if($hasPictures){
             $imageUploadSuccessful = uploadProductPictures($slug,$pictures);
         }
+        
         if(false === $created){
             $errors[]="Produkt konnte nicht bearbeitet werden";
             $hasErrors = true;
         }
-        if(true === $created ||
-        ($hasPictures && $imageUploadSuccessful)
-        ){
-           flashMessage('Produkt wurde bearbeitet');
-           header("Location: ".BASE_URL."index.php/product/edit/".$slug);
+        $updateSuccess = true === $created ||
+        ($hasPictures && $imageUploadSuccessful);
+
+        if(false === isAjax()){
+            if($updateSuccess){
+            flashMessage('Produkt wurde bearbeitet');
+            header("Location: ".BASE_URL."index.php/product/edit/".$slug);
+            }
         }
+        
+    }
+    if(true === isAjax()){
+        $response = [
+            'successed'=>$updateSuccess,
+            'hasErrors'=>$hasErrors,
+            'errors'=>$errors,
+            'pictures'=>$pictures
+        ];
+        echo json_encode($response);
+        die();
     }
 }
 
