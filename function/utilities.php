@@ -4,6 +4,9 @@ function isPost():bool{
   return strtoupper($_SERVER['REQUEST_METHOD']) === 'POST';
 }
 
+function isAjax():bool{
+  return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 'XMLHttpRequest' === $_SERVER['HTTP_X_REQUESTED_WITH'];
+}
 function escape(string $value):string{
   return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
