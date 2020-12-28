@@ -82,7 +82,13 @@ function createProduct(string $productName,string $slug,string $description,int 
       $lastId = getDB()->lastInsertId();
       return $lastId > 0;
 }
-
+function uploadedPictures(?string $name = null){
+  static $pictures = [];
+  if(is_null($name)){
+    return $pictures;
+  }
+  $pictures[]=$name;
+}
 function uploadProductPictures(string $slug,array $picutres):bool{
   $picutrePath = STORAGE_DIR.'/productPictures/'.$slug.'/';
   if(!is_dir($picutrePath)){
@@ -97,6 +103,8 @@ function uploadProductPictures(string $slug,array $picutres):bool{
     $filesToCheck[]=$picutrePath.$fileName.'.'.$picutre['extension'];
     copy($picutre['tmp_name'],$picutrePath.$fileName.'.'.$picutre['extension']);
     unlink($picutre['tmp_name']);
+    uploadedPictures($slug.'/'.$fileName.'.'.$picutre['extension']);
+
     $fileName++;
   }
   $result  = true;
