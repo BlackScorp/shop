@@ -6,6 +6,7 @@
           Produkt bearbeiten
 </div>
 <div class="card-body">
+
 <?php require_once __DIR__.'/flashMessage.php' ?>
 <?php require_once __DIR__.'/errorMessages.php'?>
 <div class="alert alert-danger" id="uploadFailed"  style="display: none;" role="alert">
@@ -32,12 +33,13 @@
     </div>
     <div class="form-group">
         <div class="drop-zone form-control text-center">
+        <?php require_once __DIR__.'/ajaxLoader.php' ?>
         <label for="picture">Wähle bild aus<span class="advanced"> oder drage und drope hier rein</span></label>
         <input type="file" name="picture[]" id="picture" class="form-control-file">
         </div>
     
     </div>
-    <div class="form-group">
+    <div class="form-group" id="pictures">
         <div class="row">
         <?php foreach($prorductImages as $image):?>
             <div class="col-3">
