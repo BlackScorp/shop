@@ -113,7 +113,7 @@ if(isPost()){
             'successed'=>$updateSuccess,
             'hasErrors'=>$hasErrors,
             'errors'=>$errors,
-            'pictures'=>$pictures
+            'pictures'=>uploadedPictures()
         ];
         echo json_encode($response);
         die();
