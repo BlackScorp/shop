@@ -10,7 +10,8 @@ let isDragAndDropUpload = function(){
 if(isDragAndDropUpload){
     document.querySelectorAll('form.droppable').forEach(function(currentForm){
         currentForm.classList.add('can-drop');
-
+        let ajaxLoader = currentForm.querySelector('#ajaxLoader');
+        let galleryDiv = currentForm.querySelector('#pictures .row');
         ['dragover','dragenter'].forEach(function(eventName){
       
             currentForm.addEventListener(eventName,function(event){
@@ -33,6 +34,7 @@ if(isDragAndDropUpload){
             event.stopPropagation();
             let formData = new FormData(currentForm);
             let droppedFiles = event.dataTransfer.files;
+            ajaxLoader.style.display ="block";
             formData.delete('picture[]');
 
             for(let i = 0,ilenght =droppedFiles.length ;i<ilenght;i++){
@@ -50,13 +52,18 @@ if(isDragAndDropUpload){
             .then(result => {
                 if(result.successed){
                     currentForm.querySelector('#uploadSuccess').style.display ="block";
+                    result.pictures.forEach(function(currentPictureName){
+                        galleryDiv.innerHTML += '<div class="col-3"><img src="index.php/product/image/'+currentPictureName+'" class="img-thumbnail"></div>';
+                    });
                 }
                 if(result.successed == false){
                     currentForm.querySelector('#uploadFailed').style.display ="block";
                 }
+                ajaxLoader.style.display ="none";
             })
             .catch(error => {
                 //Fehlgeschlagen
+                ajaxLoader.style.display ="none";
             });
             console.log("dropped");
             
