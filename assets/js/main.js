@@ -59,11 +59,13 @@ if(isDragAndDropUpload){
                 if(result.successed == false){
                     currentForm.querySelector('#uploadFailed').style.display ="block";
                 }
-                ajaxLoader.style.display ="none";
+                setTimeout(() => { ajaxLoader.style.display ="none"; }, 2000);
             })
             .catch(error => {
                 //Fehlgeschlagen
-                ajaxLoader.style.display ="none";
+                currentForm.querySelector('#uploadFailed').style.display ="block";
+                console.error('Error:', error);
+                setTimeout(() => { ajaxLoader.style.display ="none"; }, 2000);
             });
             console.log("dropped");
             
