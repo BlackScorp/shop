@@ -1,6 +1,6 @@
 <div class="card <?=$product['status']?>">
   <div class="card-title"><?= $product['title']?></div>
-  <img src="index.php/product/image/<?= $product['slug']?>/1.jpg" class="card-img-top" alt="produkt">
+  <img src="index.php/product/image/<?= $product['slug']?>/<?= $product['mainImage']?>" class="card-img-top" alt="produkt">
   <div class="card-body">
     <?= $product['description'] ?>
     <hr>
