@@ -13,8 +13,10 @@ function getAllProducts(){
   }
   $products = [];
   while($row = $result->fetch()){
+    $row['mainImage']=getProductMainImage($row['slug']);
     $products[]=$row;
   }
+ 
   return $products;
 }
 
@@ -34,7 +36,9 @@ function getProductBySlug(string $slug):?array{
   if($statement->rowCount() === 0){
     return null;
   }
-  return $statement->fetch();
+  $product = $statement->fetch();
+  $product['mainImage']=getProductMainImage($product['slug']);
+  return $product;
 }
 function editProduct(int $id, string $productName,string $slug,string $description,int $price):bool{
   $sql="UPDATE products SET 
@@ -116,3 +120,8 @@ function uploadProductPictures(string $slug,array $picutres):bool{
   }
   return $result;
 }
+
+function getProductMainImage(string $slug):string{
+  $mainImages = glob(STORAGE_DIR.'/productPictures/'.$slug.'/*-main*');
+  return basename($mainImages[0]);
+};
