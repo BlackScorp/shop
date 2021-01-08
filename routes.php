@@ -108,6 +108,10 @@ if(strpos($route,'/product/edit') !== false){
   require_once __DIR__.'/actions/product.edit.php';
   exit();
 }
+if(strpos($route,'/product/image/select') !== false){
+  require_once __DIR__.'/actions/product.image.select.php';
+  exit();
+}
 if(strpos($route,'/product/image') !== false){
   require_once __DIR__.'/actions/product.image.php';
   exit();
