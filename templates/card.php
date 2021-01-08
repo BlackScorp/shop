@@ -4,7 +4,7 @@
   <div class="card-body">
     <?= $product['description'] ?>
     <hr>
-    <?= $product['price'] ?>
+    <?= convertToMoney((int)$product['price']) ?>
   </div>
   <div class="card-footer">
     <a href="index.php/product/<?= $product['slug']?>" class="btn btn-primary btn-sm">details</a>
