@@ -43,7 +43,9 @@
         <div class="row">
         <?php foreach($prorductImages as $image):?>
             <div class="col-3">
+                <a href="index.php/product/image/select/<?=escape($slug)?>/<?=$image?>">
                 <img src="index.php/product/image/<?=escape($slug)?>/<?=$image?>" class="img-thumbnail">
+                </a>
             </div>
         <?php endforeach;?>
         </div>

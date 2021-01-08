@@ -53,7 +53,7 @@ if(isDragAndDropUpload){
                 if(result.successed){
                     currentForm.querySelector('#uploadSuccess').style.display ="block";
                     result.pictures.forEach(function(currentPictureName){
-                        galleryDiv.innerHTML += '<div class="col-3"><img src="index.php/product/image/'+currentPictureName+'" class="img-thumbnail"></div>';
+                        galleryDiv.innerHTML += '<div class="col-3"><a href="index.php/product/image/select/'+currentPictureName+'"><img src="index.php/product/image/'+currentPictureName+'" class="img-thumbnail"></a></div>';
                     });
                 }
                 if(result.successed == false){
