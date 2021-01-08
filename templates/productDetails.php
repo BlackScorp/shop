@@ -7,7 +7,7 @@
     <div class="card-body">
     <div class="row">
         <div class="col-4">
-        <img src="index.php/product/image/<?= $product['slug']?>/1.jpg" class="card-img-top" alt="produkt">
+        <img src="index.php/product/image/<?= $product['slug']?>/<?= $product['mainImage']?>" class="card-img-top" alt="produkt">
   
 
         </div>
