@@ -1,4 +1,8 @@
 # Disclaimer
+
+Der nachfolgende Code ist nur für den Lernzweck gedacht und entspricht nicht den Industriestandard. Wenn ihr einen Shop betreiben wollt, verwendet einen
+fertigen wie etwa https://www.shopware.com/de/ oder https://woocommerce.com/ 
+
 Einige Episoden enthalten bugs die beim Programmieren nicht direkt aufgefallen sind. Ein bekannter bug ist die Handhabung der Zufälligen UserId mit random_int(). 
 Ersetzt diesen userId mit einem festen Wert statt der random_int() Funktion, in späteren Episoden wird es sowieso gelöscht und es wird kein Gast Zugang geben.
 Weitere bekannte bugs können noch in der Wiki Seite aufgelistet werden.
