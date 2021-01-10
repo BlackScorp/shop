@@ -30,6 +30,8 @@ redirectIfNotLogged('/checkout');
     $pdfPath = STORAGE_DIR.'/invoices/invoice-'.$invoiceId.'.pdf';
     $created = createPdfFromUrl($invoiceUrl,$pdfPath);
     $userData= getUserDataForId(  $userId );
+    unset($_SESSION['paymentMethod']);
+    unset($_SESSION['deliveryAddressId']);
     if($created){
       $message = new Swift_Message('Bestellung erfolgreich');
       $body = <<< TEXT
@@ -43,8 +45,7 @@ redirectIfNotLogged('/checkout');
       $message->setFrom([MAIL_NOREPLY=>'Mein Shop']);
       $send = sendMail($message);
       if($send){
-        unset($_SESSION['paymentMethod']);
-        unset($_SESSION['deliveryAddressId']);
+     
         require TEMPLATES_DIR.'/thankyYouPage.php';
         exit();
       }
@@ -52,5 +53,5 @@ redirectIfNotLogged('/checkout');
 
   }
 
-  require TEMPLATES_DIR.'/errorPage/CompleteOrder.php';
+  require TEMPLATES_DIR.'/errorPages/CompleteOrder.php';
   exit();
