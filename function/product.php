@@ -123,5 +123,8 @@ function uploadProductPictures(string $slug,array $picutres):bool{
 
 function getProductMainImage(string $slug):string{
   $mainImages = glob(STORAGE_DIR.'/productPictures/'.$slug.'/*-main*');
+  if(count($mainImages) === 0){
+    $mainImages = glob(STORAGE_DIR.'/productPictures/'.$slug.'/1.*');
+  }
   return basename($mainImages[0]);
 };
