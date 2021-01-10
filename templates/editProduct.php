@@ -24,6 +24,14 @@
         <input type="text" value="<?=escape($slug)?>" name="slug" id="slug" class="form-control">
     </div>
     <div class="form-group">
+        <label for="categories">Kategorien</label>
+        <ul>
+        <?php foreach($categories as $category):?>
+            <li><?= $category['label']?></li>
+        <?php endforeach;?>
+        </ul>
+    </div>
+    <div class="form-group">
         <label for="description">Produkt Beschreibung</label>
         <textarea class="form-control" id="description" name="description" rows="3"><?=escape($description)?></textarea>
     </div>
