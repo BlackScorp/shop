@@ -1,5 +1,5 @@
 <div class="col-3">
-<img src="index.php/product/image/<?= $product['slug']?>/<?= $product['mainImage']?>" class="productPicture" alt="produkt">
+<img src="index.php/product/image/<?= $cartItem['slug']?>/<?= $cartItem['mainImage']?>" class="productPicture" alt="produkt">
 
 </div>
 <div class="col-7">

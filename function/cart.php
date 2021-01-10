@@ -33,7 +33,7 @@ function getCartItemsForUserId(?int $userId):array{
   if(null === $userId){
     return [];
   }
-  $sql ="SELECT product_id,title,description,price,quantity
+  $sql ="SELECT product_id,title,description,price,slug,quantity
           FROM cart
           JOIN products ON(cart.product_id = products.id)
           WHERE user_id = :userId";
@@ -49,6 +49,7 @@ function getCartItemsForUserId(?int $userId):array{
 
   $found = [];
   while($row = $statement->fetch()){
+    $row['mainImage']=getProductMainImage($row['slug']);
     $found[]=$row;
   }
   return $found;
