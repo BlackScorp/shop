@@ -20,3 +20,26 @@ function getCategories():array{
     }
     return $categories;
 }
+
+function findCategoryById(int $categoryId):?array{
+
+    $sql ="SELECT id,label,parentId
+    FROM categories
+    WHERE id = :id";
+
+    $statement = getDB()->prepare($sql);
+    if(false === $statement){
+      return null;
+    }
+    $statement->execute([
+        ':id'=>$categoryId
+    ]);
+
+    if(0 === $statement->rowCount()){
+        return null;
+    }
+
+    $categoryData = $statement->fetch();
+    
+    return $categoryData;
+}
