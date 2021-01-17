@@ -1,6 +1,6 @@
 <?php require_once __DIR__.'/header.php'?>
 <section id="newProduct" class="container"> 
-    <form action="index.php/product/edit/<?=$slug ?>" class="droppable" method="POST" enctype="multipart/form-data">
+    <form action="index.php/product/edit/<?=escape($slug) ?>" class="droppable" method="POST" enctype="multipart/form-data">
     <div class="card">
         <div class="card-header">
           Produkt bearbeiten
@@ -27,7 +27,7 @@
         <label for="categories">Kategorien</label>
         <ul>
         <?php foreach($categories as $category):?>
-            <li><?= $category['label']?></li>
+            <li><a href="index.php/category/assign/<?=escape($slug)?>/<?=$category['id']?>"><?= $category['label']?></a></li>
         <?php endforeach;?>
         </ul>
     </div>
