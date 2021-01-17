@@ -128,3 +128,20 @@ function getProductMainImage(string $slug):string{
   }
   return basename($mainImages[0]);
 };
+
+
+function assignCategory(int $productId,int $categoryId):bool{
+  $sql ="UPDATE products 
+  SET category_id = :categoryId 
+  WHERE id = :productId";
+
+  $statement = getDB()->prepare($sql);
+    if(false === $statement){
+      return false;
+    }
+  $statement->execute([
+    ':categoryId'=>$categoryId,
+    ':productId'=>$productId
+  ]); 
+  return $statement->rowCount() > 0;
+}
