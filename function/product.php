@@ -126,6 +126,9 @@ function getProductMainImage(string $slug):string{
   if(count($mainImages) === 0){
     $mainImages = glob(STORAGE_DIR.'/productPictures/'.$slug.'/1.*');
   }
+  if(count($mainImages) === 0){
+    return 'notfound.jpg';
+  }
   return basename($mainImages[0]);
 };
 
