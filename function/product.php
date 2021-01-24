@@ -21,7 +21,7 @@ function getAllProducts(){
 }
 
 function getProductBySlug(string $slug):?array{
-  $sql ="SELECT id,title,description,price,slug,status
+  $sql ="SELECT id,title,description,price,slug,status,category_id
   FROM products
   WHERE slug=:slug
   LIMIT 1
@@ -130,7 +130,7 @@ function getProductMainImage(string $slug):string{
 };
 
 
-function assignCategory(int $productId,int $categoryId):bool{
+function assignCategory(int $productId,?int $categoryId):bool{
   $sql ="UPDATE products 
   SET category_id = :categoryId 
   WHERE id = :productId";
