@@ -20,14 +20,20 @@ if(null === $product){
 
 $categoryId = (int)$routeParts[4];
 
+
+$id = null;
+
+if($categoryId > 0){
 $category = findCategoryById($categoryId);
 
 if(null === $category){
     echo "Konnte keine Kategorie zu der ID:".$categoryId." finden";
     die();
 }
+$id = $category['id'];
+}
+$assigned = assignCategory($product['id'],$id);
 
-$assigned = assignCategory($product['id'],$category['id']);
 $message = "Konnte ".$category['label']." nicht zum Produkt ".$product['title']." nicht zuordnen";
 if($assigned){
     $message = $product['title']." gehört jetzt zu der Kategorie ".$category['label'];
