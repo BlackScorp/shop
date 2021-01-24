@@ -26,8 +26,19 @@
     <div class="form-group">
         <label for="categories">Kategorien</label>
         <ul>
+        <li>
+        <a href="index.php/category/assign/<?=escape($slug)?>/0">Alle Kategorien</a>
+        </li>
         <?php foreach($categories as $category):?>
-            <li><a href="index.php/category/assign/<?=escape($slug)?>/<?=$category['id']?>"><?= $category['label']?></a></li>
+            <li>
+            <a href="index.php/category/assign/<?=escape($slug)?>/<?=$category['id']?>">
+            <?php if((bool)$category['isPrimary']):?>
+                <strong><?= $category['label']?></strong>
+            <?php else :?>
+                <?= $category['label']?>
+            <?php endif;?>
+            </a>
+            </li>
         <?php endforeach;?>
         </ul>
     </div>
