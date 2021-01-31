@@ -15,7 +15,12 @@ if(null === $product){
     echo "Konnte kein passendes Produkt zum Slug:".$slug." finden";
     die();
 }
-$categories = getCategories($product['category_id']);
+$parentCategories = [];
+ getParentCategory((int)$product['category_id'],$parentCategories);
+array_shift($parentCategories);
+asort($parentCategories);
+
+$categories = getCategories((int)$product['category_id']);
 
 $productName = $product['title'];
 $slug = $product['slug'];

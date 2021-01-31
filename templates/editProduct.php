@@ -29,6 +29,13 @@
         <li>
         <a href="index.php/category/assign/<?=escape($slug)?>/0">Alle Kategorien</a>
         </li>
+        <?php foreach($parentCategories as $category):?>
+            <li>
+                <a href="index.php/category/assign/<?=escape($slug)?>/<?=$category['id']?>">
+                <?= $category['label']?>
+                </a>
+           </li>
+        <?php endforeach?>
         <?php foreach($categories as $category):?>
             <li>
             <a href="index.php/category/assign/<?=escape($slug)?>/<?=$category['id']?>">

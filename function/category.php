@@ -48,3 +48,27 @@ function findCategoryById(int $categoryId):?array{
     
     return $categoryData;
 }
+
+function getParentCategory(?int $categoryId = null,array &$labels){
+    if(!$categoryId){
+        return null;
+    }
+    $sql ="SELECT id,label,parentId FROM categories WHERE id = :categoryId";
+
+    $statement = getDB()->prepare($sql);
+    if(false === $statement){
+      return null;
+    }
+    $statement->execute([
+        ':categoryId'=>$categoryId
+    ]);
+    if(0 === $statement->rowCount()){
+        return null;
+    }   
+    $row = $statement->fetch();
+    
+    $labels[]=$row;
+    if($row['parentId']){
+        getParentCategory((int)$row['parentId'],$labels);
+    }
+}
