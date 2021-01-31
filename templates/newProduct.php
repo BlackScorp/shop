@@ -21,7 +21,7 @@
         <textarea class="form-control" id="description" name="description" rows="3"><?=escape($description)?></textarea>
     </div>
     <div class="form-group">
-        <label for="price">Price</label>
+        <label for="price">Preis</label>
         <input type="text" value="<?=escape($price)?>" name="price" id="price" class="form-control">
     </div>
 </div>

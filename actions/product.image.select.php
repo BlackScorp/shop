@@ -6,7 +6,7 @@ if(count($routeParts) !== 6){
     echo "Ungültige URL";
     die();
 }
-$slug = $routeParts[4];
+$slug = rawurldecode($routeParts[4]);
 $fileName = $routeParts[5];
 
 $sourceFilePath = STORAGE_DIR.'/productPictures/'.$slug.'/'.$fileName;

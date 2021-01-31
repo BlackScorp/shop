@@ -10,7 +10,7 @@ if(count($routeParts) !== 5){
     echo "Ungültige URL";
     die();
 }
-$slug = $routeParts[3];
+$slug = rawurldecode($routeParts[3]);
 
 $product = getProductBySlug($slug);
 if(null === $product){

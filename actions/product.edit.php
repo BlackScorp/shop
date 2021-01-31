@@ -9,7 +9,7 @@ if(count($routeParts) !== 4){
     echo "Ungültige URL";
     die();
 }
-$slug = $routeParts[3];
+$slug = rawurldecode($routeParts[3]);
 $product = getProductBySlug($slug);
 if(null === $product){
     echo "Konnte kein passendes Produkt zum Slug:".$slug." finden";
