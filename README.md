@@ -1,17 +1,17 @@
 # Disclaimer
 
 Der nachfolgende Code ist nur für den Lernzweck gedacht und entspricht nicht dem Industriestandard. Wenn ihr einen Shop betreiben wollt, verwendet
-einen fertigen wie etwa https://www.shopware.com/de/ oder https://woocommerce.com/
+einen fertigen Shop wie etwa https://www.shopware.com/de/ oder https://woocommerce.com/
 
 Einige Episoden enthalten Bugs die beim Programmieren nicht direkt aufgefallen sind. Ein bekannter Bug ist die Handhabung der zufälligen UserId mit
-random_int(). Ersetzt diese userId mit einem festen Wert statt mit der random_int() Funktion, in späteren Episoden wird dies sowieso gelöscht und es
+random_int(). Ersetzt diese userId mit einem festen Wert statt mit der random_int() Funktion. In späteren Episoden wird dies sowieso gelöscht und es
 wird keinen Gast Zugang geben. Weitere bekannte Bugs können noch in der Wiki Seite aufgelistet werden.
 
 https://github.com/BlackScorp/shop/wiki
 
 # About
 
-Hier siehst du den Code zu dem Projekt "Online Shop Tutorial". Der Code dient dazu um die Grundlagen von PHP zu lernen. Er ist mit Absicht komplett
+Hier siehst du den Code zu dem Projekt "Online Shop Tutorial". Der Code dient dazu, um die Grundlagen von PHP zu lernen. Er ist mit Absicht komplett
 mit Funktionen aufgebaut. Das Ziel ist es aufzuzeigen wie ein PHP-Projekt strukturiert und aufgebaut ist. Dabei sollten schon einige grundlegenden
 Prinzipien gezeigt werden.
 
@@ -25,7 +25,7 @@ https://github.com/BlackScorp/shop/tags
 
 # Installation
 
-Die installation soll so einfach wie möglich gehalten werden. Einfach den kompletten Ordner herunterladen in den htdocs Ordner entpacken und die
+Die Installation soll so einfach wie möglich gehalten werden. Einfach den kompletten Ordner herunterladen, in den htdocs Ordner entpacken und die
 install.sql in HeidiSQL oder PHPMyAdmin ausführen. Dann die *.example.php Dateien in den config Ordner kopieren und das .example aus den Dateinamen
 entfernen und die definierten Werte ausfüllen.
 
@@ -33,8 +33,8 @@ Hier im Video ist es genauer gezeigt : https://www.youtube.com/watch?v=kCZf74EhL
 
 # Hilfe
 
-Hilfe und Support kriegst du im Discord unter folgendem Link: https://discord.com/invite/2XkVqdJ  
-Lies dir bitte dort die Nachricht in #willkommen Chat durch damit dir schnell geholfen werden kann
+Hilfe und Support kriegst du aus Discord unter folgendem Link: https://discord.com/invite/2XkVqdJ  
+Lies dir bitte dort die Nachricht im #willkommen Chat durch damit dir schnell geholfen werden kann
 
 # Architektur
 
