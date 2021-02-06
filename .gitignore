@@ -1,3 +1,4 @@
+/.ddev
 /config/paypal.php
 /config/mail.php
 /config/database.php
