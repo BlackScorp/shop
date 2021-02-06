@@ -5,7 +5,7 @@ einen fertigen Shop wie etwa https://www.shopware.com/de/ oder https://woocommer
 
 Einige Episoden enthalten Bugs die beim Programmieren nicht direkt aufgefallen sind. Ein bekannter Bug ist die Handhabung der zufälligen UserId mit
 random_int(). Ersetzt diese userId mit einem festen Wert statt mit der random_int() Funktion. In späteren Episoden wird dies sowieso gelöscht und es
-wird keinen Gast Zugang geben. Weitere bekannte Bugs können noch in der Wiki Seite aufgelistet werden.
+wird keinen Gastzugang geben. Weitere bekannte Bugs können noch in der Wiki Seite aufgelistet werden.
 
 https://github.com/BlackScorp/shop/wiki
 
