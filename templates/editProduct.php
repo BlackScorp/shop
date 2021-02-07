@@ -30,6 +30,9 @@ require_once __DIR__ . '/header.php' ?>
 						<label for="categories">Kategorien</label>
 						<ul>
 							<li>
+								<a href="index.php/category/new/<?= escape($slug) ?>/<?= escape($productCategoryId) ?>">Kategorie anlegen</a>
+							</li>
+							<li>
 								<a href="index.php/category/assign/<?= escape($slug) ?>/0">Alle Kategorien</a>
 							</li>
                             <?php
