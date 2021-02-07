@@ -31,12 +31,22 @@ if ($categoryId > 0) {
         die();
     }
     $id = $category['id'];
+    $successMessage =$product['title'] . " gehört jetzt zu der Kategorie " . $category['label'];
+    $failMessage ="Konnte " . $category['label'] . " nicht zum Produkt " . $product['title'] . " nicht zuordnen";
 }
+
 $assigned = assignCategory($product['id'], $id);
 
-$message = "Konnte " . $category['label'] . " nicht zum Produkt " . $product['title'] . " nicht zuordnen";
+if(!$category){
+    $failMessage ="Kategorie konnte nicht zurückgesetzt werden";
+    $successMessage ="Kategorie wurde zurückgesetzt";
+    if(!$product['category_id']){
+        $assigned = true;
+    }
+}
+$message = $failMessage;
 if ($assigned) {
-    $message = $product['title'] . " gehört jetzt zu der Kategorie " . $category['label'];
+    $message =  $successMessage;
 }
 
 flashMessage($message);
