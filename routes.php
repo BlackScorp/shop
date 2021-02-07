@@ -118,6 +118,10 @@ if (strpos($route, '/product') !== false) {
     require_once __DIR__ . '/actions/product.php';
     exit();
 }
+if (strpos($route, '/category/new') !== false) {
+    require_once __DIR__ . '/actions/category.new.php';
+    exit();
+}
 if (strpos($route, '/category/assign') !== false) {
     require_once __DIR__ . '/actions/category.assign.php';
     exit();
