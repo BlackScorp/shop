@@ -73,3 +73,19 @@ function getParentCategory(?int $categoryId = null, array &$labels)
         getParentCategory((int)$row['parentId'], $labels);
     }
 }
+
+function createCategory(string $categoryName,?int $parentId): bool
+{
+    $sql ="INSERT INTO categories 
+    SET label = :categoryName, 
+    parentId = :parentId";
+    $statement = getDB()->prepare($sql);
+    if (false === $statement) {
+        return false;
+    }
+    $statement->execute([
+        ':categoryName' => $categoryName,
+        ':parentId' => $parentId,
+    ]);
+    return $statement->rowCount() > 0;
+}
