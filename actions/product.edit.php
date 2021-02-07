@@ -25,7 +25,7 @@ $categories = getCategories((int)$product['category_id']);
 $productName = $product['title'];
 $slug = $product['slug'];
 $originalSlug = $slug;
-
+$productCategoryId = (int)$product['category_id'];
 $description = $product['description'];
 $price = $product['price'];
 $id = $product['id'];
