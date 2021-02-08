@@ -5,6 +5,45 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(191) NOT NULL DEFAULT '0',
+  `password` varchar(191) NOT NULL DEFAULT '0',
+  `email` varchar(512) NOT NULL DEFAULT '0',
+  `activationKey` varchar(8) DEFAULT NULL,
+  `userRights` enum('USER','ADMIN') DEFAULT 'USER',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`),
+  KEY `activationKey` (`username`,`activationKey`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE IF NOT EXISTS `categories` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `label` varchar(200) NOT NULL DEFAULT '0',
+  `parentId` int(10) unsigned DEFAULT NULL,
+  `position` int(10) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `products`;
+CREATE TABLE IF NOT EXISTS `products` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(191) CHARACTER SET utf8 NOT NULL,
+  `description` text CHARACTER SET utf8 NOT NULL,
+  `price` int(11) NOT NULL DEFAULT 0,
+  `status` enum('DRAFT','LIVE') NOT NULL DEFAULT 'DRAFT',
+  `slug` varchar(140) NOT NULL DEFAULT '',
+  `category_id` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `slug` (`slug`),
+  KEY `FK_product_category` (`category_id`),
+  CONSTRAINT `FK_product_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 DROP TABLE IF EXISTS `cart`;
 CREATE TABLE IF NOT EXISTS `cart` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -18,14 +57,6 @@ CREATE TABLE IF NOT EXISTS `cart` (
   CONSTRAINT `FK_cart_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `categories`;
-CREATE TABLE IF NOT EXISTS `categories` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `label` varchar(200) NOT NULL DEFAULT '0',
-  `parentId` int(10) unsigned DEFAULT NULL,
-  `position` int(10) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `delivery_adresses`;
 CREATE TABLE IF NOT EXISTS `delivery_adresses` (
@@ -84,34 +115,8 @@ CREATE TABLE IF NOT EXISTS `order_products` (
   CONSTRAINT `FK_ODERS_TO_ORDER_PRODUCTS` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `products`;
-CREATE TABLE IF NOT EXISTS `products` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(191) CHARACTER SET utf8 NOT NULL,
-  `description` text CHARACTER SET utf8 NOT NULL,
-  `price` int(11) NOT NULL DEFAULT 0,
-  `status` enum('DRAFT','LIVE') NOT NULL DEFAULT 'DRAFT',
-  `slug` varchar(140) NOT NULL DEFAULT '',
-  `category_id` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `slug` (`slug`),
-  KEY `FK_product_category` (`category_id`),
-  CONSTRAINT `FK_product_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(191) NOT NULL DEFAULT '0',
-  `password` varchar(191) NOT NULL DEFAULT '0',
-  `email` varchar(512) NOT NULL DEFAULT '0',
-  `activationKey` varchar(8) DEFAULT NULL,
-  `userRights` enum('USER','ADMIN') DEFAULT 'USER',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`),
-  KEY `activationKey` (`username`,`activationKey`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
