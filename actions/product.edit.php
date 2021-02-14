@@ -5,6 +5,7 @@ if (false === isAdmin()) {
     exit();
 }
 $routeParts = explode('/', $route);
+
 if (count($routeParts) !== 4) {
     echo "Ungültige URL";
     die();
@@ -15,6 +16,7 @@ if (null === $product) {
     echo "Konnte kein passendes Produkt zum Slug:" . $slug . " finden";
     die();
 }
+
 $parentCategories = [];
 getParentCategory((int)$product['category_id'], $parentCategories);
 array_shift($parentCategories);
@@ -44,7 +46,10 @@ $picutrePath = STORAGE_DIR . '/productPictures/' . $slug . '/';
 foreach (glob($picutrePath . '*') as $filePath) {
     $prorductImages[] = basename($filePath);
 }
-
+$showCategoryDeleteModal = isset($_SESSION['deleteCategory']);
+if($showCategoryDeleteModal){
+    $deleteCategoryLabel = $_SESSION['deleteCategory']['label'];
+}
 if (isPost()) {
     $productName = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
     $slug = filter_input(INPUT_POST, 'slug', FILTER_SANITIZE_SPECIAL_CHARS);
