@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/header.php' ?>
-	<section id="newProduct" class="container">
+	<section id="editProduct" class="container">
 		<form action="index.php/product/edit/<?= escape($slug) ?>" class="droppable" method="POST" enctype="multipart/form-data">
 			<div class="card">
 				<div class="card-header">
@@ -29,15 +29,15 @@ require_once __DIR__ . '/header.php' ?>
 					<div class="form-group">
 						<label for="categories">Kategorien</label>
 						<ul>
-							<li>
+							<li class="row">
 								<a href="index.php/category/new/<?= escape($slug) ?>/<?= escape($productCategoryId) ?>">Kategorie anlegen</a>
 							</li>
-							<li>
+							<li class="row">
 								<a href="index.php/category/assign/<?= escape($slug) ?>/0">Alle Kategorien</a>
 							</li>
                             <?php
                             foreach ($parentCategories as $category): ?>
-								<li>
+								<li class="row">
 									<a href="index.php/category/assign/<?= escape($slug) ?>/<?= $category['id'] ?>">
                                         <?= $category['label'] ?>
 									</a>
@@ -46,8 +46,9 @@ require_once __DIR__ . '/header.php' ?>
                             endforeach ?>
                             <?php
                             foreach ($categories as $category): ?>
-								<li>
-									<a href="index.php/category/assign/<?= escape($slug) ?>/<?= $category['id'] ?>">
+								<li class="row">
+									
+									<a  class="col-8" href="index.php/category/assign/<?= escape($slug) ?>/<?= $category['id'] ?>">
                                         <?php
                                         if ((bool)$category['isPrimary']): ?>
 											<strong><?= $category['label'] ?></strong>
@@ -57,6 +58,9 @@ require_once __DIR__ . '/header.php' ?>
                                         <?php
                                         endif; ?>
 									</a>
+									<span class="col-4">
+									<a href="index.php/categoryDelete/<?= $category['id'] ?>/<?= escape($slug) ?>" class="btn btn-danger btn-sm">Löschen</a>
+									</span>
 								</li>
                             <?php
                             endforeach; ?>
@@ -100,5 +104,28 @@ require_once __DIR__ . '/header.php' ?>
 			</div>
 		</form>
 	</section>
+	<?php if($showCategoryDeleteModal):?>
+	<section id="confirmCategoryDelete">
+		<div class="modal" style="display: block;">
+			  <div class="modal-dialog">
+				 <div class="modal-content">
+				 <form action="index.php/category/delete" method="POST">
+				   <div class="modal-header">
+						<h4 class="modal-title">Löschvorgang bestätigen</h4>
+						<a href="btn-close" href="index.php/categoryDelete/cancel">X</a>
+				   </div>
+				   <div class="modal-body">
+				   Soll die Kategorie "<?= $deleteCategoryLabel ?>" wirklich gelöscht werden
+				   </div>
+				   <div class="modal-footer">
+				        <button type="submit" class="btn btn-sm btn-success">Löschen</button>
+						<a class="btn btn-sm btn-danger" href="index.php/categoryDelete/cancel">Abbrechen</a>
+				   </div>
+				 </form>
+				</div>
+			  </div>				
+		</div>
+	</section>
+	<?php endif;?>
 <?php
 require_once __DIR__ . '/footer.php' ?>
