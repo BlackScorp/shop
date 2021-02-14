@@ -89,3 +89,16 @@ function createCategory(string $categoryName,?int $parentId): bool
     ]);
     return $statement->rowCount() > 0;
 }
+
+function deleteCategory(int $categoryId): bool
+{
+ $sql ="DELETE FROM categories WHERE id = :categoryId";
+ $statement = getDB()->prepare($sql);
+ if (false === $statement) {
+     return false;
+ }
+ $statement->execute([
+    ':categoryId' => $categoryId
+]);
+return $statement->rowCount() > 0;
+}
