@@ -122,6 +122,19 @@ if (strpos($route, '/category/new') !== false) {
     require_once __DIR__ . '/actions/category.new.php';
     exit();
 }
+if (strpos($route, '/category/delete') !== false) {
+    require_once __DIR__ . '/actions/category.delete.real.php';
+    exit();
+}
+
+if (strpos($route, '/categoryDelete/cancel') !== false) {
+    require_once __DIR__ . '/actions/category.delete.cancel.php';
+    exit();
+}
+if (strpos($route, '/categoryDelete') !== false) {
+    require_once __DIR__ . '/actions/category.delete.php';
+    exit();
+}
 if (strpos($route, '/category/assign') !== false) {
     require_once __DIR__ . '/actions/category.assign.php';
     exit();
