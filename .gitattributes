@@ -1,5 +1,5 @@
 assets/js/boostrap.* linguist-vendored
-assets/jquery.* linguist-vendored
+assets/js/jquery.* linguist-vendored
 assets/css/boostrap.* linguist-vendored
 assets/css/fontawesome.* linguist-vendored
 assets/webfonts/* linguist-vendored
