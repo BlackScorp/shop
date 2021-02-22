@@ -1,7 +1,7 @@
 <?php
 
 
-$routeParts = explode('/', $route);
+
 $invoiceId = null;
 $securityKey = null;
 

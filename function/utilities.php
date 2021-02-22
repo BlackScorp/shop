@@ -129,10 +129,13 @@ function logData(string $level, string $message, ?array $data = null)
         $dataString = print_r($data, true) . "\n";
         $logData .= $dataString;
     }
-    $logData .= str_repeat('*', 100) . "\n";
-
-
+   
     file_put_contents($logFile, $logData, FILE_APPEND);
+}
+
+function logEnd($string = '*')
+{
+    logData('INFO',str_repeat($string,100));
 }
 
 function normalizeFiles(array $files): array

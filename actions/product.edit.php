@@ -4,17 +4,17 @@ if (false === isAdmin()) {
     echo "Ungültiger Zugriff";
     exit();
 }
-$routeParts = explode('/', $route);
+
 
 if (count($routeParts) !== 4) {
     echo "Ungültige URL";
-    die();
+    exit();
 }
 $slug = rawurldecode($routeParts[3]);
 $product = getProductBySlug($slug);
 if (null === $product) {
     echo "Konnte kein passendes Produkt zum Slug:" . $slug . " finden";
-    die();
+    exit();
 }
 
 $parentCategories = [];
@@ -125,7 +125,7 @@ if (isPost()) {
             'pictures' => uploadedPictures()
         ];
         echo json_encode($response);
-        die();
+        exit();
     }
 }
 

@@ -4,8 +4,5 @@ $isAdmin = isAdmin();
 $products = getAllProducts();
 $flashMessages = flashMessage();
 $hasFlashMessages = count($flashMessages) > 0;
-logData('INFO', 'Die Startseite wurde aufgerufen', [
-    'aktuelleUserId' => $userId,
-    'produktListe' => $products
-]);
+logData('INFO','main.php wird jetzt ausgegeben');
 require TEMPLATES_DIR . '/main.php';

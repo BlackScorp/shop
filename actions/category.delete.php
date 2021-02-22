@@ -1,13 +1,18 @@
 <?php
 
-$routeParts = explode('/', $route);
-$categoryId =  (int)$routeParts[2];
 
+$categoryId =  (int)$routeParts[2];
+$slug = $routeParts[3];
 $category = findCategoryById($categoryId);
 if(!$category){
     echo "Category ".$categoryId." nicht gefunden";
-    die();
+    exit();
+}
+$product = getProductBySlug($slug);
+if(!$product){
+    echo "Slug ".$slug." is nicht gültig";
+    exit();
 }
 $_SESSION['deleteCategory'] = $category;
-
+$_SESSION['redirectUrl'] = BASE_URL.'index.php/product/edit/'. $slug;
 require_once __DIR__.'/product.edit.php';

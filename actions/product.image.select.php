@@ -1,10 +1,10 @@
 <?php
 
 
-$routeParts = explode('/', $route);
+
 if (count($routeParts) !== 6) {
     echo "Ungültige URL";
-    die();
+    exit();
 }
 $slug = rawurldecode($routeParts[4]);
 $fileName = $routeParts[5];

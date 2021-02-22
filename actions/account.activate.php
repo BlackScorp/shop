@@ -1,6 +1,6 @@
 <?php
 
-$routeParts = explode('/', $route);
+
 if (count($routeParts) !== 5) {
     echo "Ungültige URL";
     exit();

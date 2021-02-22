@@ -5,17 +5,17 @@ if (false === isAdmin()) {
     exit();
 }
 
-$routeParts = explode('/', $route);
+
 if (count($routeParts) !== 5) {
     echo "Ungültige URL";
-    die();
+    exit();
 }
 $slug = rawurldecode($routeParts[3]);
 
 $product = getProductBySlug($slug);
 if (null === $product) {
     echo "Konnte kein passendes Produkt zum Slug:" . $slug . " finden";
-    die();
+    exit();
 }
 
 $categoryId = (int)$routeParts[4];
@@ -28,7 +28,7 @@ if ($categoryId > 0) {
 
     if (null === $category) {
         echo "Konnte keine Kategorie zu der ID:" . $categoryId . " finden";
-        die();
+        exit();
     }
     $id = $category['id'];
     $successMessage =$product['title'] . " gehört jetzt zu der Kategorie " . $category['label'];

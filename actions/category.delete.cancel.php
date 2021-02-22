@@ -1,7 +1,8 @@
 <?php
+$redirectUrl = $_SESSION['redirectUrl'];
 if(isset($_SESSION['deleteCategory'])){
     unset($_SESSION['deleteCategory']);
 }
-$referrer = BASE_URL.'index.php';
+unset($_SESSION['redirectUrl']);
 
-header('Location: '.$referrer);
+header('Location: '.$redirectUrl);
