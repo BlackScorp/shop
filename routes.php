@@ -194,3 +194,15 @@ if (strpos($route, '/category/assign') !== false) {
     logEnd();
     exit();
 }
+
+if (strpos($route, '/dashboard') !== false) {
+    logData('INFO','Wir sind auf der URL /dashboard');
+    require_once __DIR__ . '/actions/dashboard.php';
+    logEnd();
+    exit();
+}
+
+logData('WARNING','URL wurde nicht gefunden',['route'=>$route]);
+http_response_code(404);
+require_once TEMPLATES_DIR.'/404.php';
+logEnd();
