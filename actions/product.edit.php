@@ -41,6 +41,7 @@ $blockedSlugs = [
     'details',
     'edit'
 ];
+$isLive = $product['status'] === 'LIVE';
 $prorductImages = [];
 $picutrePath = STORAGE_DIR . '/productPictures/' . $slug . '/';
 foreach (glob($picutrePath . '*') as $filePath) {
@@ -55,7 +56,7 @@ if (isPost()) {
     $slug = filter_input(INPUT_POST, 'slug', FILTER_SANITIZE_SPECIAL_CHARS);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
     $price = (int)filter_input(INPUT_POST, 'price');
-
+    $isLive = (bool)filter_input(INPUT_POST, 'activate');
     $pictures = $_FILES['picture'];
     $pictures = normalizeFiles($pictures);
 
@@ -97,7 +98,7 @@ if (isPost()) {
     $hasErrors = count($errors) > 0;
     $updateSuccess = false;
     if (false === $hasErrors) {
-        $created = editProduct($id, $productName, $slug, $description, $price);
+        $created = editProduct($id, $productName, $slug, $description, $price,$isLive);
         $imageUploadSuccessful = false;
         if ($hasPictures) {
             $imageUploadSuccessful = uploadProductPictures($slug, $pictures);

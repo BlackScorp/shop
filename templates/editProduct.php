@@ -96,6 +96,15 @@ require_once __DIR__ . '/header.php' ?>
                             endforeach; ?>
 						</div>
 					</div>
+					<div class="form-group">
+				
+							<div class="custom-control custom-switch">
+							<input <?=($isLive)?'checked':''?> type="checkbox" class="custom-control-input" name="activate" id="active">
+							<label class="custom-control-label" for="active">Live?</label>
+							</div>
+				
+					</div>
+							
 				</div>
 				<div class="card-footer">
 					<a href="index.php" class="btn btn-danger">Abbrechen</a>

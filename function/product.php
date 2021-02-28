@@ -43,18 +43,23 @@ function getProductBySlug(string $slug): ?array
     return $product;
 }
 
-function editProduct(int $id, string $productName, string $slug, string $description, int $price): bool
+function editProduct(int $id, string $productName, string $slug, string $description, int $price,bool $isLive): bool
 {
     $sql = "UPDATE products SET 
   title = :productName,
   slug = :slug,
   description = :description,
-  price = :price
+  price = :price,
+  status = :status
   WHERE id= :id
   ";
     $statement = getDB()->prepare($sql);
     if (false === $statement) {
         return false;
+    }
+    $status = 'DRAFT';
+    if($isLive){
+        $status = 'LIVE';
     }
     $statement->execute(
         [
@@ -63,6 +68,7 @@ function editProduct(int $id, string $productName, string $slug, string $descrip
             ':slug' => $slug,
             ':description' => $description,
             ':price' => $price,
+            ':status' => $status
         ]
     );
     $rowCount = $statement->rowCount();
