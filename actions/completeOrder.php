@@ -14,7 +14,9 @@ $cartItems = getCartItemsForUserId($userId);
 
 $functionName = $_SESSION['paymentMethod'] . 'PaymentComplete';
 $parameter = [];
+$defaultStatus = "new";
 if ($_SESSION['paymentMethod'] === 'paypal') {
+    $defaultStatus="payed";
     $parameter = [
         $_SESSION['paypalOrderToken']
     ];
@@ -23,7 +25,7 @@ call_user_func_array($functionName, $parameter);
 $deliveryAddressData = getDeliveryAddressDataForUser($_SESSION['deliveryAddressId'], $userId);
 
 
-if (createOrder($userId, $cartItems, $deliveryAddressData)) {
+if (createOrder($userId, $cartItems, $deliveryAddressData,$defaultStatus)) {
     clearCartForUser($userId);
     $invoiceId = invoiceId();
     $invoiceUrl = $projectUrl . 'index.php/invoice/' . $invoiceId;

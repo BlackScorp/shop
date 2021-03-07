@@ -200,3 +200,33 @@ function getOrderForUser(int $orderId, ?int $userId = null): ?array
     }
     return $orderData;
 }
+
+function getOrders(): array
+{
+    logData('INFO','Suche Bestellungen',);
+
+    $sql ="SELECT id,orderDate,deliveryDate,status 
+    FROM orders 
+    ORDER BY orderDate DESC
+    ";
+    $statement = getDB()->prepare($sql);
+    if (false === $statement) {
+        logData('ERROR','Fehler beim Aufrufen der Bestellungen',[
+            'sql'=>$sql,
+            'error'=> printDBErrorMessage()
+        ]);
+     
+        return [];
+    }
+    $statement->execute();
+    if (0 === $statement->rowCount()) {
+        logData('INFO','Es wurden keine Bestellungen gefunden');
+        return [];
+    }
+    logData('INFO','Liefere alle Bestellungen aus');
+    $orders = [];
+    while ($row = $statement->fetch()) {
+        $orders[] = $row;
+    }
+    return $orders;
+}

@@ -14,13 +14,16 @@
                 <?php
                 endif; ?>
 			</li>
-			<?php
-                if (isAdmin()): ?>
+			<?php if (isAdmin()): ?>
 				<li class="nav-item">
 					<a class="nav-link" href="index.php/dashboard">Dashboard</a>
 				</li>
-                <?php
-                endif; ?>
+                <?php endif; ?>
+				<?php if (isAdmin()): ?>
+				<li class="nav-item">
+					<a class="nav-link" href="index.php/orders">Bestellungen</a>
+				</li>
+                <?php endif; ?>
             <?php
             if (!isLoggedIn()): ?>
 				<li class="nav-item">
