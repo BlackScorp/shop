@@ -202,6 +202,13 @@ if (strpos($route, '/dashboard') !== false) {
     exit();
 }
 
+if (strpos($route, '/orders/details') !== false) {
+    logData('INFO','Wir sind auf der URL /orders/details');
+    require_once __DIR__ . '/actions/orders.details.php';
+    logEnd();
+    exit();
+}
+
 if (strpos($route, '/orders') !== false) {
     logData('INFO','Wir sind auf der URL /orders');
     require_once __DIR__ . '/actions/orders.php';
