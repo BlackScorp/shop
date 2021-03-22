@@ -14,7 +14,7 @@ function addProductToCart(int $userId, int $productId, int $quantity = 1)
         ':quantity' => $quantity
     ];
 
-    $statement->execute($data);
+    return $statement->execute($data);
 }
 
 function countProductsInCart(?int $userId)

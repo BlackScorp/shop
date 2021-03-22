@@ -2,15 +2,11 @@
 
 
 
-$invoiceId = null;
+
 $securityKey = null;
 
-if (isset($routeParts[2])) {
-    $invoiceId = (int)$routeParts[2];
-}
-
-if (isset($routeParts[3])) {
-    $securityParts = explode('.', $routeParts[3]);
+if (isset($securityKeyString)) {
+    $securityParts = explode('.', $securityKeyString);
     if (count($securityParts) === 2) {
         $securityKeyPath = $securityParts[0];
         $securityKeyCheck = $securityParts[1];
@@ -18,17 +14,13 @@ if (isset($routeParts[3])) {
         if (is_file($securityKeyFileName)) {
             $checkKey = file_get_contents($securityKeyFileName);
             if ($securityKeyCheck === $checkKey) {
-                $securityKey = $routeParts[3];
+                $securityKey = $securityKeyString;
             }
         }
     }
 }
 if (!$securityKey) {
     redirectIfNotLogged('/');
-}
-if (!$invoiceId) {
-    echo "Rechnung nicht angegeben";
-    exit();
 }
 
 $userId = getCurrentUserId();

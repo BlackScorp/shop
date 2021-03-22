@@ -1,8 +1,4 @@
 <?php
-if(!isPost()){
-    echo "Ungültige URL";
-    exit();
-}
 
 if(!isset($_SESSION['deleteCategory'])){
     echo "Ungültige URL";

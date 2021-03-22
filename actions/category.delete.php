@@ -1,8 +1,7 @@
 <?php
 
 
-$categoryId =  (int)$routeParts[2];
-$slug = $routeParts[3];
+
 $category = findCategoryById($categoryId);
 if(!$category){
     echo "Category ".$categoryId." nicht gefunden";

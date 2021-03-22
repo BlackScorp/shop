@@ -2,15 +2,8 @@
 
 
 
-if (count($routeParts) !== 3) {
-    echo "Ungültige URL";
-    exit();
-}
-$slug = rawurldecode($routeParts[2]);
-if (0 === strlen($slug)) {
-    echo "ungültiges Produkt";
-    exit();
-}
+$slug = rawurldecode($slug);
+
 $product = getProductBySlug($slug);
 if (null === $product) {
     echo "ungültiges Produkt";

@@ -1,12 +1,6 @@
 <?php
 
 
-if (count($routeParts) !== 5) {
-    echo "Ungültige URL";
-    exit();
-}
-$username = $routeParts[3];
-$activationKey = $routeParts[4];
 
 $activated = activateAccount($username, $activationKey);
 if (false === $activated) {

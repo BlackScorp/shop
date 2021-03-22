@@ -1,12 +1,5 @@
 <?php
 
-
-if (count($routeParts) !== 3) {
-    echo "Ungültige URL";
-    exit();
-}
-
-$username = $routeParts[2];
 $activationKey = getActivationKeyByUsername($username);
 if (null === $activationKey) {
     echo "Account ist aktiviert";

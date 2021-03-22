@@ -2,15 +2,9 @@
 
 logData('INFO','Action wird gestartet',['fileName'=>__FILE__]);
 
-if (count($routeParts) !== 5) {
-    echo "Ungültige URL";
-    logData('ERROR','wir erwarte 5 route parts',[
-        'erhalteneRouteparts'=>count($routeParts) 
-    ]);
-    exit();
-}
-$slug = rawurldecode($routeParts[3]);
-$fileName = $routeParts[4];
+
+$slug = rawurldecode($slug);
+
 $sourceFilePath = STORAGE_DIR . '/productPictures/' . $slug . '/' . $fileName;
 
 

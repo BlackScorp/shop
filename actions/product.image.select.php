@@ -2,12 +2,9 @@
 
 
 
-if (count($routeParts) !== 6) {
-    echo "Ungültige URL";
-    exit();
-}
-$slug = rawurldecode($routeParts[4]);
-$fileName = $routeParts[5];
+
+$slug = rawurldecode($slug);
+
 
 $sourceFilePath = STORAGE_DIR . '/productPictures/' . $slug . '/' . $fileName;
 if (false === is_file($sourceFilePath)) {

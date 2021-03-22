@@ -20,12 +20,15 @@ if (substr($baseUrl, -1) !== '/') {
 define('BASE_URL', $baseUrl);
 $projectUrl = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $baseUrl;
 
-$route = null;
 
+$route = null;
 if (false !== $indexPHPPosition) {
     logData('INFO','index.php steht in der URL, entferne es aus der Route');
     $route = substr($url, $indexPHPPosition);
     $route = str_replace('index.php', '', $route);
+}
+if(!$route){
+    $route = '/';
 }
 
 
@@ -33,190 +36,176 @@ $userId = getCurrentUserId();
 $countCartItems = countProductsInCart($userId);
 $isEmail = false;
 
-if (!$route) {
+router('/',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der Startseite');
     require_once __DIR__ . '/actions/index.php';
     logEnd();
-    exit();
-}
+},'GET');
 
-$routeParts = explode('/', $route);
-logData('INFO','Wir haben mehrere Routeparts',$routeParts);
-if (strpos($route, '/cart/add/') !== false) {
+
+router('/cart/add/(\d+)',function(int $productId) use($userId,$projectUrl){
     logData('INFO','Wir sind auf der URL /cart/add');
+  
     require_once __DIR__ . '/actions/cart.add.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/cart') !== false) {
+},'GET');
+
+router('/cart',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /cart');
     require_once __DIR__ . '/actions/cart.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/login') !== false) {
+},'GET');
+
+router('/login',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /login');
     require_once __DIR__ . '/actions/login.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/checkout') !== false) {
+});
+
+router('/checkout',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /checkout');
     require_once __DIR__ . '/actions/checkout.php';
     logEnd();
-    exit();
-}
+},'GET');
 
-if (strpos($route, '/logout') !== false) {
+
+
+router('/logout',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /logout');
     require_once __DIR__ . '/actions/logout.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/selectDeliveryAddress') !== false) {
+},'GET');
+
+router('/selectDeliveryAddress/(\d+)',function($deliveryAddressId) use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /selectDeliveryAddress');
     require_once __DIR__ . '/actions/selectDeliveryAddress.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/deliveryAddress/add') !== false) {
+},'GET');
+
+router('/deliveryAddress/add',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /deliveryAddress/add');
     require_once __DIR__ . '/actions/deliveryAddress.add.php';
     logEnd();
-    exit();
-}
+});
 
-if (strpos($route, '/selectPayment') !== false) {
+router('/selectPayment',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /selectPayment');
     require_once __DIR__ . '/actions/selectPayment.php';
     logEnd();
-    exit();
-}
+});
 
-if (strpos($route, '/paymentComplete') !== false) {
+router('/paymentComplete',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /paymentComplete');
     require_once __DIR__ . '/actions/paymentComplete.php';
     logEnd();
-    exit();
-}
+},'GET');
 
-if (strpos($route, '/completeOrder') !== false) {
+router('/completeOrder',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /completeOrder');
     require_once __DIR__ . '/actions/completeOrder.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/register') !== false) {
+});
+
+router('/register',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /register');
     require_once __DIR__ . '/actions/register.php';
     logEnd();
-    exit();
-}
+});
 
-if (strpos($route, '/invoice') !== false) {
+router('/invoice/(\d+)(/\S+)?',function(int $invoiceId,string $securityKeyString = null) use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /invoice');
     require_once __DIR__ . '/actions/invoice.php';
     logEnd();
-    exit();
-}
+},'GET');
 
-if (strpos($route, '/account/activate') !== false) {
+router('/account/activate/(\S+)/(\S+)',function(string $username,string $activationKey) use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /account/activate');
     require_once __DIR__ . '/actions/account.activate.php';
     logEnd();
-    exit();
-}
+},'GET');
 
-if (strpos($route, '/activationMail') !== false) {
+router('/activationMail/(\S+)',function($useranme) use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /activationMail');
     require_once __DIR__ . '/actions/activationMail.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/product/new') !== false) {
+},'GET');
+
+router('/product/new',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /product/new');
     require_once __DIR__ . '/actions/product.new.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/product/edit') !== false) {
+});
+
+router('/product/edit/(\S+)',function(string $slug) use($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /product/edit');
     require_once __DIR__ . '/actions/product.edit.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/product/image/select') !== false) {
+});
+router('/product/image/select/(\S+)/(\S+)',function(string $slug,string $fileName) use($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /product/image/select');
     require_once __DIR__ . '/actions/product.image.select.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/product/image') !== false) {
+},'GET');
+
+router('/product/image/(\S+)/(\S+)',function(string $slug,string $fileName) use($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /product/image');
     require_once __DIR__ . '/actions/product.image.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/product') !== false) {
+},'GET');
+
+router('/product/(\S+)',function(string $slug) use($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /product');
     require_once __DIR__ . '/actions/product.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/category/new') !== false) {
+},'GET');
+
+router('/category/new/(\S+)/(\d+)',function(string $slug,int $categoryId) use($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /category/new');
     require_once __DIR__ . '/actions/category.new.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/category/delete') !== false) {
+} );
+
+
+router('/category/delete',function(string $slug,int $categoryId) use($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /category/delete');
     require_once __DIR__ . '/actions/category.delete.real.php';
     logEnd();
-    exit();
-}
-
-if (strpos($route, '/categoryDelete/cancel') !== false) {
+},'POST');
+ 
+router( '/categoryDelete/cancel',function() use($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /categoryDelete/cancel');
     require_once __DIR__ . '/actions/category.delete.cancel.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/categoryDelete') !== false) {
+},'GET');
+
+router('/categoryDelete/(\d+)/(\S+)',function(int $categoryId,string $slug)  use($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /categoryDelete');
     require_once __DIR__ . '/actions/category.delete.php';
     logEnd();
-    exit();
-}
-if (strpos($route, '/category/assign') !== false) {
+},'GET');
+
+router('/category/assign/(\S+)/(\d+)',function(string $slug,int $categoryId)  use($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /category/assign');
     require_once __DIR__ . '/actions/category.assign.php';
     logEnd();
-    exit();
-}
+},'GET');
 
-if (strpos($route, '/dashboard') !== false) {
+router('/dashboard',function() use($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /dashboard');
     require_once __DIR__ . '/actions/dashboard.php';
     logEnd();
-    exit();
-}
+},'GET' );
 
-if (strpos($route, '/orders/details') !== false) {
+router('/orders/details/(\d+)',function(int $orderId)  use($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /orders/details');
     require_once __DIR__ . '/actions/orders.details.php';
     logEnd();
-    exit();
-}
+},'GET');
 
-if (strpos($route, '/orders') !== false) {
+router('/orders',function() use($userId,$baseUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /orders');
     require_once __DIR__ . '/actions/orders.php';
     logEnd();
-    exit();
-}
+},'GET');
 
-logData('WARNING','URL wurde nicht gefunden',['route'=>$route]);
-http_response_code(404);
-require_once TEMPLATES_DIR.'/404.php';
-logEnd();
+echo router($route);

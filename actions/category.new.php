@@ -6,11 +6,7 @@ if (false === isAdmin()) {
 }
 
 
-if (count($routeParts) !== 5) {
-    echo "Ungültige URL";
-    exit();
-}
-$slug = rawurldecode($routeParts[3]);
+$slug = rawurldecode($slug);
 
 $product = getProductBySlug($slug);
 if (null === $product) {
@@ -18,7 +14,6 @@ if (null === $product) {
     exit();
 }
 
-$categoryId = (int)$routeParts[4];
 
 $categoryName = '';
 $errors = [];
