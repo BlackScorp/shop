@@ -230,3 +230,25 @@ function getOrders(): array
     }
     return $orders;
 }
+
+function updateOrderStatus(string $newStatus, int $orderId):bool {
+    logData('INFO','Ändere order status',);
+
+    $sql ="UPDATE orders SET status = :newStatus WHERE id=:id";
+    $statement = getDB()->prepare($sql);
+    if (false === $statement) {
+        logData('ERROR','Fehler beim Aufrufen der Bestellungen',[
+            'sql'=>$sql,
+            'error'=> printDBErrorMessage()
+        ]);
+     
+        return false;
+    }
+    $statement->execute(
+        [
+            ':newStatus'=>$newStatus,
+            ':id'=>$orderId
+        ]
+    );
+    return $statement->rowCount() > 0;
+}

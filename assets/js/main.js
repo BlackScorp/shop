@@ -1,5 +1,43 @@
 (function(){
 document.querySelector('html').classList.replace('no-js','js');
+const orderStatusElements = document.querySelectorAll('.oderStatus');
+orderStatusElements.forEach(function(currentOrderStatusElement){
+    currentOrderStatusElement.addEventListener('change',function(){
+        const formOfStatus = currentOrderStatusElement.closest('form');
+        const event = new CustomEvent("submit", {"bubbles":true, "cancelable": true});
+        formOfStatus.dispatchEvent(event);
+        
+    });
+});
+
+const ajaxForms = document.querySelectorAll('.ajax-form');
+const ajaxLoader = document.querySelector('#ajaxLoader');
+ajaxForms.forEach(function(currentAjaxForm){
+    
+    currentAjaxForm.addEventListener('submit',function(event){
+        event.preventDefault();
+        event.stopPropagation();
+        ajaxLoader.style.display ="block";
+        fetch(currentAjaxForm.getAttribute('action'),{
+            method:currentAjaxForm.getAttribute('method'),
+            headers:{
+                'X-Requested-With':'XMLHttpRequest'
+            },
+            body:new FormData(currentAjaxForm)
+        })
+        .then(result => result.json())
+        .then(result => {
+
+            ajaxLoader.style.display ="none";
+        })
+           .catch(error => {
+            ajaxLoader.style.display ="none";
+            
+            });
+    });
+   
+});
+
 
 let isDragAndDropUpload = function(){
     let div = document.createElement('div');

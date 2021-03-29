@@ -208,4 +208,22 @@ router('/orders',function() use($userId,$baseUrl,$isEmail,$countCartItems){
     logEnd();
 },'GET');
 
-echo router($route);
+router('/orders/changeStatus',function() use($userId,$baseUrl,$isEmail,$countCartItems){
+    logData('INFO','Wir sind auf der URL /orders/changeStatus');
+    require_once __DIR__.'/actions/order.changeStatus.php';
+    logEnd();
+},'POST');
+
+router('/404',function() use($userId,$baseUrl,$isEmail,$countCartItems){
+    http_response_code(404);
+    require_once TEMPLATES_DIR.'/404.php';
+    logEnd();
+});
+
+$content = router($route);
+
+if(false === $content){
+    echo router('/404');
+    return;
+}
+echo $content;

@@ -1,9 +1,11 @@
 <?php require_once __DIR__ . '/header.php' ?>
+<?php require_once __DIR__ . '/ajaxLoader.php' ?>
 <section class="container" id="dashboard">
     <div class="row">
 		<h2>Bestellungen</h2>
 	</div>
 	<div class="row">
+	<form method="POST" style="width: 100%;"  action="index.php/orders/changeStatus" class="ajax-form">
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
@@ -17,11 +19,11 @@
 		<tbody>
 		<?php foreach($orders as $order):?>
 			<tr>
-				<td><?=$order['id']?></td>
+				<td><?=$order['id']?><input type="hidden" name="order[<?=$order['id']?>][id]" value="<?=$order['id']?>"></td>
 				<td><?=$order['orderDate']?></td>
 				<td><?=$order['deliveryDate']?></td>
 				<td>
-					<select class="form-select">
+					<select class="form-select oderStatus" name="order[<?=$order['id']?>][status]">
 					<?php foreach($orderStatus as $orderStatus):
 						$isSelected = $order['status'] === $orderStatus;
 						?>
@@ -31,12 +33,13 @@
 				</td>
 				<td>
 					<a class="btn btn-primary btn-sm" href="index.php/orders/details/<?=$order['id']?>">Details</a>
-			
 				</td>
 			</tr>
+		
 		<?php endforeach;?>
 		</tbody>
 	</table>
+	</form>
 	</div>
 
 	

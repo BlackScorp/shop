@@ -194,19 +194,22 @@ function router($path = null, $action = null, $methods = 'POST|GET',bool $direct
             continue;
         }
         if (!is_callable($action)) {
-            http_response_code(404);
-            return $path.'Route not found ';
+       
+            logData('WARNING','Route not found',['route'=>$path]);
+            return false;
             
         }
         if($currentDirectRequestIsDisabled && $_SERVER['REQUEST_URI'] && $_SERVER['REQUEST_URI'] === $originalPath){
-            http_response_code(404);
-            return $path.'Route not found ';
+           
+            logData('WARNING','Route not found',['route'=>$path]);
+            return false;
         }
         array_shift($matches);
         array_shift($matches);
         $response = $action(...$matches);
         return $response;
     }
-    http_response_code(404);
-    return $path.'Route not found ';
+  
+    logData('WARNING','Route not found',['route'=>$path]);
+    return false;
 }
