@@ -21,8 +21,8 @@ require_once __DIR__ . '/header.php' ?>
 			</div>
 			<div class="card-footer">
 				<a href="index.php" class="btn btn-primary btn-sm">Zurück zum Schop</a>
-
 				<a href="index.php/cart/add/<?= $product['id'] ?>" class="btn btn-success btn-sm">In den Warenkorb</a>
+				<a href="index.php/reviews/<?=$product['slug']?>" class="btn btn-sm btn-primary">Bewertungen lesen</a>
 			</div>
 		</div>
 	</section>

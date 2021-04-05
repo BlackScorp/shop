@@ -116,6 +116,24 @@ CREATE TABLE IF NOT EXISTS `order_products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+CREATE TABLE IF NOT EXISTS `reviews` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `value` int(10) unsigned NOT NULL,
+  `title` varchar(50) NOT NULL DEFAULT '',
+  `text` text NOT NULL,
+  `created` datetime NOT NULL,
+  `status` enum('PUBLIC','PRIVATE') NOT NULL DEFAULT 'PRIVATE',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `product_id_user_id` (`product_id`,`user_id`),
+  KEY `product_id_status` (`product_id`,`status`),
+  KEY `FK_USER_REVIEWS` (`user_id`),
+  CONSTRAINT `FK_PRODUCT_REVIEWS` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_USER_REVIEWS` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

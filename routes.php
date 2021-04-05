@@ -214,6 +214,12 @@ router('/orders/changeStatus',function() use($userId,$baseUrl,$isEmail,$countCar
     logEnd();
 },'POST');
 
+router('/reviews/(\S+)',function(string $slug) use($userId,$baseUrl,$isEmail,$countCartItems){
+    logData('INFO','Wir sind auf der URL /reviews');
+    require_once __DIR__.'/actions/reviews.php';
+    logEnd();
+});
+
 router('/404',function() use($userId,$baseUrl,$isEmail,$countCartItems){
     http_response_code(404);
     require_once TEMPLATES_DIR.'/404.php';
