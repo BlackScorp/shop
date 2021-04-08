@@ -33,6 +33,7 @@ if(!$route){
 
 
 $userId = getCurrentUserId();
+
 $countCartItems = countProductsInCart($userId);
 $isEmail = false;
 
@@ -124,7 +125,7 @@ router('/account/activate/(\S+)/(\S+)',function(string $username,string $activat
     logEnd();
 },'GET');
 
-router('/activationMail/(\S+)',function($useranme) use ($userId,$baseUrl,$projectUrl,$isEmail,$countCartItems){
+router('/activationMail/(\S+)',function($username) use ($userId, $baseUrl,$projectUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /activationMail');
     require_once __DIR__ . '/actions/activationMail.php';
     logEnd();
