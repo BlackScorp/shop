@@ -100,13 +100,13 @@ router('/paymentComplete',function() use ($userId,$baseUrl,$isEmail,$countCartIt
     logEnd();
 },'GET');
 
-router('/completeOrder',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
+router('/completeOrder',function() use ($userId,$baseUrl,$projectUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /completeOrder');
     require_once __DIR__ . '/actions/completeOrder.php';
     logEnd();
 });
 
-router('/register',function() use ($userId,$baseUrl,$isEmail,$countCartItems){
+router('/register',function() use ($userId,$baseUrl,$projectUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /register');
     require_once __DIR__ . '/actions/register.php';
     logEnd();
@@ -124,7 +124,7 @@ router('/account/activate/(\S+)/(\S+)',function(string $username,string $activat
     logEnd();
 },'GET');
 
-router('/activationMail/(\S+)',function($useranme) use ($userId,$baseUrl,$isEmail,$countCartItems){
+router('/activationMail/(\S+)',function($useranme) use ($userId,$baseUrl,$projectUrl,$isEmail,$countCartItems){
     logData('INFO','Wir sind auf der URL /activationMail');
     require_once __DIR__ . '/actions/activationMail.php';
     logEnd();
