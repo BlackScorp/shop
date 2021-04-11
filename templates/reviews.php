@@ -6,6 +6,11 @@
 <?php if(null === $reviews):?>
 <strong>Es gibt noch keine Reviews, sei der Erste</strong>
 <?php endif;?>
+
+<?php if($isLoggedIn):?>
+<?php require_once __DIR__.'/reviewForm.php';?>
+<?php endif;?>
+
 <?php if(null !== $reviews):?>
 <?php foreach($reviews as $review):?>
 <?=$review['username']?><br/>

@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   `value` int(10) unsigned NOT NULL,
   `title` varchar(50) NOT NULL DEFAULT '',
   `text` text NOT NULL,
-  `created` datetime NOT NULL,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
   `status` enum('PUBLIC','PRIVATE') NOT NULL DEFAULT 'PRIVATE',
   PRIMARY KEY (`id`),
   UNIQUE KEY `product_id_user_id` (`product_id`,`user_id`),
