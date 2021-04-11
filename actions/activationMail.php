@@ -9,7 +9,7 @@ if (null === $activationKey) {
 
 $isEmail = true;
 $registrationDate = date('d.M.Y');
-$acitvationLink = $projectUrl . 'index.php/account/activate/' . $username . '/' . $activationKey;
+$activationLink = $projectUrl . 'index.php/account/activate/' . $username . '/' . $activationKey;
 $currentYear = date('Y');
 
 require_once TEMPLATES_DIR . '/activationMail.php';
