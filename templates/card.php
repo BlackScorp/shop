@@ -4,7 +4,9 @@
 	<div class="card-body">
         <?= $product['description'] ?>
 		<hr>
-        <?= convertToMoney((int)$product['price']) ?>
+		<?=$product['rating']?> <a href="index.php/reviews/<?= $product['slug']?>">Produkt Bewerten</a>
+		<hr>
+        <strong><?= convertToMoney((int)$product['price']) ?> €</strong>
 	</div>
 	<div class="card-footer">
 		<a href="index.php/product/<?= $product['slug'] ?>" class="btn btn-primary btn-sm">details</a>

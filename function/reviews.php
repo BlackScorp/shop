@@ -80,3 +80,23 @@ function userHasRatedProduct(int $userId,int $productId):bool
     ]);
     return (bool)$statement->fetchColumn();
 }
+
+function getAvgRating(int $productId): ?float
+{
+    $status = 'PUBLIC';
+    
+    $sql ="SELECT SUM(`value`)/COUNT(`id`)
+    FROM reviews
+    WHERE `product_id` = :productId
+    AND `status` = :status
+    ";
+       $statement = getDb()->prepare($sql);
+       if (false === $statement) {
+           return null;
+       }
+       $statement->execute([
+           ':status'=>$status,
+           ':productId' => $productId,
+       ]);
+       return (float)$statement->fetchColumn();
+}

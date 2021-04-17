@@ -13,7 +13,9 @@ require_once __DIR__ . '/header.php' ?>
 
 					</div>
 					<div class="col-8">
-						<div>Preis: <b><?= convertToMoney($product['price']) ?></b></div>
+						<?=$product['rating']?> <a href="index.php/reviews/<?= $product['slug']?>">Produkt Bewerten</a>
+						<hr/>
+						<div>Preis: <b><?= convertToMoney($product['price']) ?> €</b></div>
 						<hr/>
 						<div><?= $product['description'] ?></div>
 					</div>

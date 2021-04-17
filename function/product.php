@@ -15,6 +15,7 @@ function getAllProducts()
     $products = [];
     while ($row = $result->fetch()) {
         $row['mainImage'] = getProductMainImage($row['slug']);
+        $row['rating'] = getAvgRating($row['id']);
         $products[] = $row;
     }
 
@@ -40,6 +41,7 @@ function getProductBySlug(string $slug): ?array
     }
     $product = $statement->fetch();
     $product['mainImage'] = getProductMainImage($product['slug']);
+    $product['rating'] = getAvgRating($product['id']);
     return $product;
 }
 
