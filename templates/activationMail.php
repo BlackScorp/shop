@@ -18,7 +18,7 @@ require_once __DIR__ . '/htmlHead.php' ?>
 				<p><a href="<?= $activationLink ?>" class="btn btn-success" role="button">Jetzt Aktivieren</a></p>
 				<p>Oder verwenden Sie den Direkten Link per Hand: <?= $activationLink ?></p>
 				<p>Für eine manuelle Aktivierung verwenden Sie bitte den folgenden Code:</p>
-				<p><b>Ihr Link:</b> <?= $projectUrl ?>/Aktivierung</p>
+				<p><b>Ihr Link:</b> <?= $projectUrl ?>index.php/account/activate/<?= $username ?>/<?= $activationKey ?></p>
 				<p><b>Ihr Benutzername:</b> <?= $username ?><br/>
 					<b>Ihr Aktivierungscode:</b> <?= $activationKey ?></p>
 				<p>
