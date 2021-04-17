@@ -5,12 +5,13 @@
 
 $securityKey = null;
 
-if (isset($securityKeyString)) {
+if(null !== $securityKeyString){
+    $securityKeyString =  substr($securityKeyString,1);
     $securityParts = explode('.', $securityKeyString);
     if (count($securityParts) === 2) {
         $securityKeyPath = $securityParts[0];
         $securityKeyCheck = $securityParts[1];
-        $securityKeyFileName = STORAGE_DIR . '/security/key_' . $securityKeyPath . '.txt';
+        $securityKeyFileName = STORAGE_DIR . '/security/key_' . $securityKeyPath . '.txt';        
         if (is_file($securityKeyFileName)) {
             $checkKey = file_get_contents($securityKeyFileName);
             if ($securityKeyCheck === $checkKey) {
