@@ -72,7 +72,7 @@ function redirectIfNotLogged(string $sourceTarget)
         return;
     }
     $_SESSION['redirectTarget'] = BASE_URL . 'index.php' . $sourceTarget;
-    header("Location: " . BASE_URL . "index.php/login");
+    header("Location: " . BASE_URL . "index.php/account/login");
     exit();
 }
 

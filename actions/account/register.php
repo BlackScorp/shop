@@ -84,4 +84,3 @@ if (isPost()) {
     }
 }
 $hasErrors = count($errors) > 0;
-require_once TEMPLATES_DIR . '/register.php';

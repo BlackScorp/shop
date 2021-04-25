@@ -43,5 +43,3 @@ if ($isPost) {
     }
 }
 $hasErrors = count($errors) > 0;
-
-require TEMPLATES_DIR . '/login.php';

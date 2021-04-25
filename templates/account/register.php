@@ -1,14 +1,14 @@
 <?php
-require_once __DIR__ . '/header.php' ?>
+require_once TEMPLATES_DIR . '/header.php' ?>
 <section id="register" class="container">
-	<form action="index.php/register" method="POST">
+	<form action="index.php/account/register" method="POST">
 		<div class="card">
 			<div class="card-header">
 				Registrierung
 			</div>
 			<div class="card-body">
                 <?php
-                require_once __DIR__ . '/errorMessages.php' ?>
+                require_once TEMPLATES_DIR . '/errorMessages.php' ?>
 				<div class="form-group">
 					<label for="username">Username</label>
 					<input type="text" value="<?= $username ?>" name="username" id="username" class="form-control">
@@ -38,4 +38,4 @@ require_once __DIR__ . '/header.php' ?>
 	</form>
 </section>
 <?php
-require_once __DIR__ . '/footer.php' ?>
+require_once TEMPLATES_DIR . '/footer.php' ?>

@@ -5,4 +5,4 @@ $products = getAllProducts();
 $flashMessages = flashMessage();
 $hasFlashMessages = count($flashMessages) > 0;
 logData('INFO','main.php wird jetzt ausgegeben');
-require TEMPLATES_DIR . '/main.php';
+

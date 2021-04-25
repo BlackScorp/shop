@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/header.php' ?>
+require_once TEMPLATES_DIR . '/header.php' ?>
 <section class="container" id="cartItems">
 	<div clas="row">
 		<h2>Warenkorb</h2>
@@ -13,7 +13,7 @@ require_once __DIR__ . '/header.php' ?>
     foreach ($cartItems as $cartItem): ?>
 		<div class="row cartItem">
             <?php
-            include __DIR__ . '/cartItem.php'; ?>
+            include TEMPLATES_DIR . '/cartItem.php'; ?>
 		</div>
     <?php
     endforeach; ?>
@@ -28,4 +28,4 @@ require_once __DIR__ . '/header.php' ?>
 	</div>
 </section>
 <?php
-require_once __DIR__ . '/footer.php' ?>
+require_once TEMPLATES_DIR . '/footer.php' ?>
