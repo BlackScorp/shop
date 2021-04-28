@@ -18,6 +18,7 @@
     background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
     height: 400px;
     background-position: center;
+    background-repeat: no-repeat;
 }
 
 
@@ -39,4 +40,8 @@
 
 .contant_box_404 {
     margin-top: -50px;
+}
+
+.text-center {
+    text-align: center;
 }
