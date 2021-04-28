@@ -10,6 +10,9 @@ function getAccessToken(): string
         return $_SESSION['payPalAccessToken'];
     }
 
+    if (!file_exists(CONFIG_DIR . '/paypal.php')) {
+        redirectMissingConfig('config/paypal.php');
+    }
     require_once CONFIG_DIR . '/paypal.php';
 
     $curl = curl_init();
@@ -67,6 +70,9 @@ function productToPayPalItem(array $product): stdClass
 
 function paypalCreateOrder(array $deliveryAddressData, array $products)
 {
+    if (!file_exists(CONFIG_DIR . '/paypal.php')) {
+        redirectMissingConfig('config/paypal.php');
+    }
     require_once CONFIG_DIR . '/paypal.php';
     $accessToken = getAccessToken();
 
@@ -186,6 +192,9 @@ function getPayPalRequestId(): ?string
 
 function capturePayment(string $accessToken, string $orderId, string $token)
 {
+    if (!file_exists(CONFIG_DIR . '/paypal.php')) {
+        redirectMissingConfig('config/paypal.php');
+    }
     require_once CONFIG_DIR . '/paypal.php';
     $data = new stdClass();
 
