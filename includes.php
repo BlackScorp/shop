@@ -1,6 +1,12 @@
 <?php
 
+require_once __DIR__ . '/function/404.php';
+
 require_once CONFIG_DIR . '/companyData.php';
+
+if (!file_exists(CONFIG_DIR . '/mail.php')) {
+    redirectMissingConfig('config/mail.php');
+}
 require_once CONFIG_DIR . '/mail.php';
 
 require_once __DIR__ . '/vendor/autoload.php';

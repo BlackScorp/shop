@@ -203,7 +203,7 @@ function getOrderForUser(int $orderId, ?int $userId = null): ?array
 
 function getOrders(): array
 {
-    logData('INFO','Suche Bestellungen',);
+    logData('INFO','Suche Bestellungen');
 
     $sql ="SELECT id,orderDate,deliveryDate,status 
     FROM orders 
@@ -232,7 +232,7 @@ function getOrders(): array
 }
 
 function updateOrderStatus(string $newStatus, int $orderId):bool {
-    logData('INFO','Ändere order status',);
+    logData('INFO','Ändere order status');
 
     $sql ="UPDATE orders SET status = :newStatus WHERE id=:id";
     $statement = getDB()->prepare($sql);
