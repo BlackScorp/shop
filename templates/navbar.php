@@ -5,12 +5,12 @@
 			<li class="nav-item">
                 <?php
                 if (isLoggedIn()): ?>
-					<a class="nav-link" href="index.php/logout">Logout</a>
+					<a class="nav-link" href="index.php/account/logout">Logout</a>
                 <?php
                 endif; ?>
                 <?php
                 if (!isLoggedIn()): ?>
-					<a class="nav-link" href="index.php/login">Login</a>
+					<a class="nav-link" href="index.php/account/login">Login</a>
                 <?php
                 endif; ?>
 			</li>
@@ -27,7 +27,7 @@
             <?php
             if (!isLoggedIn()): ?>
 				<li class="nav-item">
-					<a class="nav-link" href="index.php/register">Registrieren</a>
+					<a class="nav-link" href="index.php/account/register">Registrieren</a>
 				</li>
             <?php
             endif; ?>

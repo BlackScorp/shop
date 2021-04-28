@@ -48,7 +48,13 @@ router('/account/activate/(\S+)/(\S+)', function (string $username, string $acti
     logEnd();
 }, 'GET');
 
-router('/(\w+)?(/\w+)?(/\w+)?', function (string $controller = 'index', string $action = '/index', ?string $parameter = null) use ($userId, $baseUrl, $isEmail, $countCartItems){
+router('/activationMail/(\S+)', function ($username) use ($userId, $baseUrl, $projectUrl, $isEmail, $countCartItems) {
+    logData('INFO', 'Wir sind auf der URL /activationMail');
+    require_once __DIR__ . '/actions/activationMail.php';
+    logEnd();
+}, 'GET');
+
+router('/(\w+)?(/\w+)?(/\w+)?', function (string $controller = 'index', string $action = '/index', ?string $parameter = null) use ($userId, $baseUrl, $projectUrl, $isEmail, $countCartItems){
     if ($parameter !== null &&  strpos($parameter, '/') === 0) {
         $parameter = substr($parameter, 1);
     }
@@ -133,15 +139,6 @@ router('/invoice/(\d+)(/\S+)?', function (int $invoiceId, string $securityKeyStr
     require_once __DIR__ . '/actions/invoice.php';
     logEnd();
 }, 'GET');
-
-
-
-router('/activationMail/(\S+)', function ($username) use ($userId, $baseUrl, $projectUrl, $isEmail, $countCartItems) {
-    logData('INFO', 'Wir sind auf der URL /activationMail');
-    require_once __DIR__ . '/actions/activationMail.php';
-    logEnd();
-}, 'GET');
-
 
 
 router('/product/new', function () use ($userId, $baseUrl, $isEmail, $countCartItems) {
