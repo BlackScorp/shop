@@ -54,40 +54,6 @@ router('/activationMail/(\S+)', function ($username) use ($userId, $baseUrl, $pr
     logEnd();
 }, 'GET');
 
-router('/(\w+)?(/\w+)?(/\w+)?', function (string $controller = 'index', string $action = '/index', ?string $parameter = null) use ($userId, $baseUrl, $projectUrl, $isEmail, $countCartItems){
-    if ($parameter !== null &&  strpos($parameter, '/') === 0) {
-        $parameter = substr($parameter, 1);
-    }
-    $route = $controller . $action . '/' . $parameter;
-   
-    logData('INFO', 'Wir sind auf der Seite: ' . $route);
-    $fileName = ACTIONS_DIR .'/'.$controller . $action . '.php';
-    $templateFile = TEMPLATES_DIR .'/'. $controller . $action . '.php';
-    $errorFilename = TEMPLATES_DIR.'/error.php';
-    if (false === is_file($fileName)) {
-        return router('/404');
-    }
-    $result = require_once $fileName;
-    if (false === $result) {
-        logData('ERROR',$error);
-        $errorPage = require_once $errorFilename;
-        logEnd();
-        return $errorPage;
-    }
-    if (false === is_file($templateFile)) {
-        
-        $error = 'Template '.$templateFile.' not found';
-        logData('ERROR',$error);
-        $errorPage = require_once $errorFilename;
-        logEnd();
-        return $errorPage;
-    }
-    require_once $templateFile;
-    logEnd();
-});
-
-
-
 
 
 router('/checkout', function () use ($userId, $baseUrl, $isEmail, $countCartItems) {
@@ -236,6 +202,42 @@ router('/404', function () use ($userId, $baseUrl, $isEmail, $countCartItems) {
     require_once TEMPLATES_DIR . '/404.php';
     logEnd();
 });
+
+
+router('/(\w+)?(/\w+)?(/\w+)?', function (string $controller = 'index', string $action = '/index', ?string $parameter = null) use ($userId, $baseUrl, $projectUrl, $isEmail, $countCartItems){
+    if ($parameter !== null &&  strpos($parameter, '/') === 0) {
+        $parameter = substr($parameter, 1);
+    }
+    $route = $controller . $action . '/' . $parameter;
+
+    logData('INFO', 'Wir sind auf der Seite: ' . $route);
+    $fileName = ACTIONS_DIR .'/'.$controller . $action . '.php';
+    $templateFile = TEMPLATES_DIR .'/'. $controller . $action . '.php';
+    $errorFilename = TEMPLATES_DIR.'/error.php';
+    if (false === is_file($fileName)) {
+        return router('/404');
+    }
+    $result = require_once $fileName;
+    if (false === $result) {
+        logData('ERROR',$error);
+        $errorPage = require_once $errorFilename;
+        logEnd();
+        return $errorPage;
+    }
+    if (false === is_file($templateFile)) {
+
+        $error = 'Template '.$templateFile.' not found';
+        logData('ERROR',$error);
+        $errorPage = require_once $errorFilename;
+        logEnd();
+        return $errorPage;
+    }
+    require_once $templateFile;
+    logEnd();
+});
+
+
+
 
 $content = router($route);
 

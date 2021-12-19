@@ -1,5 +1,5 @@
 <?php
 
-redirectIfNotLogged("/cart/add/" . $productId);
-$result = addProductToCart($userId, $productId);
+redirectIfNotLogged("/cart/add/" . $parameter);
+$result = addProductToCart($userId, $parameter);
 header("Location: " . $projectUrl . "index.php");
