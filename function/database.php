@@ -21,5 +21,6 @@ function printDBErrorMessage()
     if (isset($info[2])) {
         return $info[2];
     }
+    
     return '';
 }
